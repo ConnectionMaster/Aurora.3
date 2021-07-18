@@ -25,19 +25,18 @@
 	var/scoop_food = 1
 	var/transfer_amt = 5
 
-/obj/item/material/kitchen/utensil/New()
-	..()
+/obj/item/material/kitchen/utensil/Initialize(newloc, material_key)
+	. = ..()
 	if (prob(60))
 		src.pixel_y = rand(0, 4)
 	create_reagents(5)
-	return
 
 /obj/item/material/kitchen/utensil/attack(mob/living/carbon/M, mob/user, var/target_zone)
 	if(!istype(M))
 		return ..()
 
 	if(user.a_intent != I_HELP)
-		if(target_zone == BP_HEAD || target_zone == BP_EYES)
+		if((target_zone == BP_HEAD || target_zone == BP_EYES) && !M.eyes_protected(src, FALSE))
 			if((user.is_clumsy()) && prob(50))
 				M = user
 			return eyestab(M,user)

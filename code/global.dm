@@ -20,9 +20,6 @@ var/global/datum/universal_state/universe = new
 
 var/global/list/global_map = null
 
-// Noises made when hit while typing.
-var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF")
-
 var/diary               = null
 var/diary_runtime  = null
 var/diary_date_string = null
@@ -137,15 +134,14 @@ var/static/list/scarySounds = list(
 	'sound/items/welder.ogg',
 	'sound/items/welder_pry.ogg',
 	'sound/machines/airlock.ogg',
-	'sound/effects/clownstep1.ogg',
-	'sound/effects/clownstep2.ogg'
+
 )
 
 // Bomb cap!
 var/max_explosion_range = 14
 
 // Announcer intercom, because too much stuff creates an intercom for one message then hard del()s it.
-var/global/obj/item/device/radio/intercom/global_announcer = new(null)
+var/global/obj/item/device/radio/all_channels/global_announcer = new(null)
 
 // the number next to it denotes how much money the department receives when its account is generated
 var/list/department_funds = list(

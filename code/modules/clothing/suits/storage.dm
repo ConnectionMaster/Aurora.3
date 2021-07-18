@@ -55,6 +55,7 @@
 	playsound(src, /decl/sound_category/rustle_sound, EQUIP_SOUND_VOLUME, TRUE)
 	icon_state = "[initial(icon_state)][opened ? "_open" : ""]"
 	item_state = icon_state
+	update_icon()
 	update_clothing_icon()
 
 /obj/item/clothing/suit/storage/toggle/Initialize()
@@ -63,7 +64,7 @@
 		icon_state = "[initial(icon_state)][opened ? "_open" : ""]"
 		item_state = icon_state
 
-/obj/item/clothing/suit/storage/vest/merc/Initialize()
+/obj/item/clothing/suit/armor/carrier/heavy/Initialize()
 	. = ..()
 	pockets = new/obj/item/storage/internal(src)
 	pockets.storage_slots = 4

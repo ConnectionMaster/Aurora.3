@@ -27,6 +27,7 @@
 	var/skipmask = skipitems & HIDEMASK
 	var/skipeyes = skipitems & HIDEEYES
 	var/skipears = skipitems & HIDEEARS
+	var/skipwrists = skipitems & HIDEWRISTS
 
 	var/list/msg = list("<span class='info'>*---------*\nThis is ")
 
@@ -53,7 +54,7 @@
 				for(var/accessory in U.accessories)
 					if(istype(accessory, /obj/item/clothing/accessory/holster)) //so you can't see what kind of gun a holster is holding from afar
 						accessory_descs += "\a [accessory]"
-					else	
+					else
 						accessory_descs += "<a href='?src=\ref[src];lookitem_desc_only=\ref[accessory]'>\a [accessory]</a>"
 
 				tie_msg += " [lowertext(english_list(accessory_descs))]"
@@ -147,9 +148,9 @@
 	if(legcuffed)
 		msg += "<span class='warning'>[get_pronoun("He")] [get_pronoun("is")] [icon2html(legcuffed, user)] legcuffed!</span>\n"
 
-	//buckled
-	if(buckled)
-		msg += "<span class='warning'>[get_pronoun("He")] [get_pronoun("is")] [icon2html(buckled, user)] buckled to [buckled]!</span>\n"
+	//buckled_to
+	if(buckled_to)
+		msg += "<span class='warning'>[get_pronoun("He")] [get_pronoun("is")] [icon2html(buckled_to, user)] buckled to [buckled_to]!</span>\n"
 
 	//belt
 	if(belt)
@@ -170,9 +171,9 @@
 	//mask
 	if(wear_mask && !skipmask)
 		if(wear_mask.blood_color)
-			msg += "<span class='warning'>[get_pronoun("He")] [get_pronoun("has")] [icon2html(wear_mask, user)] [wear_mask.gender==PLURAL?"some":"a"] [fluid_color_type_map(wear_mask.blood_color)]-stained <a href='?src=\ref[src];lookitem_desc_only=\ref[wear_mask]'>[wear_mask.name]</a> on [get_pronoun("his")] face!</span>\n"
+			msg += "<span class='warning'>[get_pronoun("He")] [get_pronoun("has")] [icon2html(wear_mask, user)] [wear_mask.gender==PLURAL?"some":"a"] [fluid_color_type_map(wear_mask.blood_color)]-stained <a href='?src=\ref[src];lookitem_desc_only=\ref[wear_mask]'>[wear_mask.name]</a> [wear_mask.get_mask_examine_text(src)]!</span>\n"
 		else
-			msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(wear_mask, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[wear_mask]'>\a [wear_mask]</a> on [get_pronoun("his")] face.\n"
+			msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(wear_mask, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[wear_mask]'>\a [wear_mask]</a> [wear_mask.get_mask_examine_text(src)].\n"
 
 	//eyes
 	if(glasses && !skipeyes)
@@ -183,16 +184,20 @@
 
 	//left ear
 	if(l_ear && !skipears)
-		msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(l_ear, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[l_ear]'>\a [l_ear]</a> on [get_pronoun("his")] left ear.\n"
+		msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(l_ear, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[l_ear]'>\a [l_ear]</a> [l_ear.get_ear_examine_text(src, "left")].\n"
 
 	//right ear
 	if(r_ear && !skipears)
-		msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(r_ear, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[r_ear]'>\a [r_ear]</a> on [get_pronoun("his")] right ear.\n"
+		msg += "[get_pronoun("He")] [get_pronoun("has")] [icon2html(r_ear, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[r_ear]'>\a [r_ear]</a> [r_ear.get_ear_examine_text(src, "right")].\n"
 
 	//ID
 	if(wear_id)
 		var/id_name = wear_id
 		msg += "[get_pronoun("He")] [get_pronoun("is")] wearing [icon2html(wear_id, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[wear_id]'>\a [id_name]</a>.\n"
+
+	//wrists
+	if(wrists && !skipwrists)
+		msg += "[get_pronoun("He")] [get_pronoun("is")] wearing [icon2html(wrists, user)] <a href='?src=\ref[src];lookitem_desc_only=\ref[wrists]'>\a [wrists]</a> on [get_pronoun("his")] [wrists.gender==PLURAL?"wrists":"wrist"].\n"
 
 	//Jitters
 	if(is_jittery)
@@ -361,8 +366,9 @@
 		if(istype(R))
 			medical = R.physical_status
 
-		msg += "<span class = 'deptradio'>Physical status:</span> <a href='?src=\ref[src];medical=1'>\[[medical]\]</a>\n"
-		msg += "<span class = 'deptradio'>Medical records:</span> <a href='?src=\ref[src];medrecord=`'>\[View\]</a> <a href='?src=\ref[src];medrecordadd=`'>\[Add comment\]</a>\n"
+		msg += "<span class = 'deptradio'>Physical Status:</span> <a href='?src=\ref[src];medical=1'>\[[medical]\]</a>\n"
+		msg += "<span class = 'deptradio'>Medical Records:</span> <a href='?src=\ref[src];medrecord=`'>\[View\]</a> <a href='?src=\ref[src];medrecordadd=`'>\[Add Comment\]</a>\n"
+		msg += "<span class = 'deptradio'>Triage Tag:</span> <a href='?src=\ref[src];triagetag=1'>\[[triage_tag]\]</a>\n"
 
 
 	if(print_flavor_text()) msg += "[print_flavor_text()]\n"

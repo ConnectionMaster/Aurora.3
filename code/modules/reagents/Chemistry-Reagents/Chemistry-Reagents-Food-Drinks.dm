@@ -14,18 +14,29 @@
 /decl/reagent/kois/affect_ingest(var/mob/living/carbon/human/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(!ishuman(M))
 		return
-	var/obj/item/organ/internal/parasite/P = M.internal_organs_by_name["blackkois"]
-	if((alien == IS_VAURCA) || (istype(P) && P.stage >= 3))
-		M.heal_organ_damage(1.2 * removed, 1.2 * removed)
+	var/is_vaurcalike = (alien == IS_VAURCA)
+	if(!is_vaurcalike)
+		var/obj/item/organ/internal/parasite/P = M.internal_organs_by_name["blackkois"]
+		if(istype(P) && P.stage >= 3)
+			is_vaurcalike = TRUE
+	if(is_vaurcalike)
+		M.heal_organ_damage(1.4 * removed, 1.6 * removed)
 		M.adjustNutritionLoss(-nutriment_factor * removed)
-		M.add_chemical_effect(CE_BLOODRESTORE, 6 * removed)
-
 	else
 		infect(M, alien, removed)
 
 /decl/reagent/kois/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(ishuman(M))
 		infect(M, alien, removed)
+
+/decl/reagent/kois/affect_chem_effect(mob/living/carbon/M, alien, removed, datum/reagents/holder)
+	var/is_vaurcalike = (alien == IS_VAURCA)
+	if(!is_vaurcalike)
+		var/obj/item/organ/internal/parasite/P = M.internal_organs_by_name["blackkois"]
+		if(istype(P) && P.stage >= 3)
+			is_vaurcalike = TRUE
+	if(is_vaurcalike)
+		M.add_chemical_effect(CE_BLOODRESTORE, 6 * removed)
 
 /decl/reagent/kois/proc/infect(var/mob/living/carbon/human/H, var/alien, var/removed)
 	var/obj/item/organ/internal/parasite/P = H.internal_organs_by_name["blackkois"]
@@ -66,8 +77,7 @@
 	taste_mult = 4
 	reagent_state = SOLID
 	metabolism = REM * 2
-	ingest_met = REM * 4
-	var/nutriment_factor = 12 // Per removed in digest.
+	var/nutriment_factor = 8 // Per removed in digest.
 	var/hydration_factor = 0 // Per removed in digest.
 	var/blood_factor = 2
 	var/regen_factor = 0.8
@@ -82,7 +92,7 @@
 	name = "Synthetic Nutriment"
 	description = "A cheaper alternative to actual nutriment."
 	taste_description = "cheap food"
-	nutriment_factor = 10
+	nutriment_factor = 6
 	attrition_factor = (REM * 4)/BASE_MAX_NUTRITION // Increases attrition rate.
 
 /decl/reagent/nutriment/mix_data(var/list/newdata, var/newamount, var/datum/reagents/holder)
@@ -111,7 +121,7 @@
 	if(injectable)
 		affect_ingest(M, alien, removed, holder)
 
-/decl/reagent/nutriment/affect_ingest(var/mob/living/carbon/human/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/reagent/nutriment/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(!istype(M))
 		return
 	var/obj/item/organ/internal/parasite/P = M.internal_organs_by_name["blackkois"]
@@ -135,7 +145,7 @@
 	Generally coatings are intended for deep frying foods
 */
 /decl/reagent/nutriment/coating
-	nutriment_factor = 6 //Less dense than the food itself, but coatings still add extra calories
+	nutriment_factor = 4 //Less dense than the food itself, but coatings still add extra calories
 	var/icon_raw
 	var/icon_cooked
 	var/coated_adj = "coated"
@@ -228,6 +238,14 @@
 	taste_description = "cold, bitter slime"
 	hydration_factor = 6
 
+/decl/reagent/nutriment/protein/seafood/cosmozoan
+	name = "Cosmozoan Protein"
+	taste_description = "cold, bitter slime"
+	hydration_factor = 8
+
+/decl/reagent/nutriment/protein/seafood/cosmozoan/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+	M.add_chemical_effect(CE_PAINKILLER, 10)
+
 /decl/reagent/nutriment/protein/egg // Also bad for skrell.
 	name = "Egg Yolk"
 	color = "#FFFFAA"
@@ -251,7 +269,7 @@
 	description = "More commonly known as fat, the third macronutrient, with over double the energy content of carbs and protein"
 
 	reagent_state = SOLID
-	nutriment_factor = 27//The caloric ratio of carb/protein/fat is 4:4:9
+	nutriment_factor = 12
 	color = "#CCCCCC"
 	taste_description = "fat"
 
@@ -309,7 +327,7 @@
 /decl/reagent/nutriment/honey
 	name = "Honey"
 	description = "A golden yellow syrup, loaded with sugary sweetness."
-	nutriment_factor = 10
+	nutriment_factor = 8
 	color = "#FFFF00"
 	taste_description = "honey"
 	germ_adjust = 5
@@ -640,14 +658,14 @@
 		message = "<span class='danger'>Your face and throat burn!</span>"
 		if(prob(25))
 			M.visible_message("<b>[M]</b> [pick("coughs!","coughs hysterically!","splutters!")]")
-		M.apply_effect(40, PAIN, 0)
+		M.apply_effect(30, PAIN)
 
 /decl/reagent/capsaicin/condensed/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!H.can_feel_pain())
 			return
-	M.apply_effect(4, PAIN, 0)
+	M.apply_effect(10, PAIN)
 	if(prob(5))
 		M.visible_message("<span class='warning'>[M] [pick("dry heaves!","coughs!","splutters!")]</span>", "<span class='danger'>You feel like your insides are burning!</span>")
 	if(istype(M, /mob/living/carbon/slime))
@@ -705,9 +723,8 @@
 	if(alien != IS_DIONA)
 		if (caffeine)
 			M.add_up_to_chemical_effect(CE_SPEEDBOOST, caffeine)
-			M.add_chemical_effect(CE_PULSE, 1)
 		M.dizziness = max(0, M.dizziness + adj_dizzy)
-		M.drowsyness = max(0, M.drowsyness + adj_drowsy)
+		M.drowsiness = max(0, M.drowsiness + adj_drowsy)
 		M.sleeping = max(0, M.sleeping + adj_sleepy)
 
 	if(add_nutrition == TRUE)
@@ -989,6 +1006,15 @@
 	glass_name = "glass of fermented fatshouters milk"
 	glass_desc = "A tajaran made fermented dairy product, traditionally consumed by nomadic population of Adhomai."
 
+/decl/reagent/drink/milk/adhomai/mutthir
+	name = "Mutthir"
+	description = "A beverage made with Fatshouters' yogurt mixed with Nm’shaan's sugar and sweet herbs."
+	taste_description = "sweet fatty yogurt"
+
+	glass_icon_state = "mutthir_glass"
+	glass_name = "glass of mutthir"
+	glass_desc = "A beverage made with Fatshouters' yogurt mixed with Nm’shaan's sugar and sweet herbs."
+
 /decl/reagent/drink/milk/beetle
 	name = "Hakhma Milk"
 	description = "A milky substance extracted from the brood sac of the viviparous Hakhma, often consumed by Offworlders and Scarabs."
@@ -998,6 +1024,19 @@
 
 	glass_name = "glass of hakhma milk"
 	glass_desc = "A milky substance extracted from the brood sac of the viviparous Hakhma, often consumed by Offworlders and Scarabs."
+
+/decl/reagent/drink/milk/schlorrgo
+	name = "Schlorrgo Milk"
+	description = "An opaque white liquid produced by the mammary glands of the Schlorrgo."
+	taste_description = "fatty milk"
+
+/decl/reagent/drink/milk/schlorrgo/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+	..()
+	if(alien == IS_TAJARA && prob(5))
+		var/mob/living/carbon/human/H = M
+		if(H.can_feel_pain())
+			H.custom_pain("You feel a stinging pain in your abdomen!")
+			H.Stun(3)
 
 /decl/reagent/drink/tea
 	name = "Tea"
@@ -1359,7 +1398,7 @@
 
 	if(alien != IS_DIONA)
 		M.dizziness = max(0, M.dizziness - 5)
-		M.drowsyness = max(0, M.drowsyness - 3)
+		M.drowsiness = max(0, M.drowsiness - 3)
 		M.sleeping = max(0, M.sleeping - 2)
 		M.intoxication = max(0, (M.intoxication - (removed*0.25)))
 
@@ -1728,7 +1767,7 @@
 		M.make_jittery(20)
 		M.druggy = max(M.druggy, 30)
 		M.dizziness += 5
-		M.drowsyness = 0
+		M.drowsiness = 0
 
 /decl/reagent/drink/grenadine
 	name = "Grenadine Syrup"
@@ -2178,7 +2217,7 @@
 	..()
 	if(alien != IS_DIONA)
 		M.dizziness = max(0, M.dizziness - 5)
-		M.drowsyness = max(0, M.drowsyness - 3)
+		M.drowsiness = max(0, M.drowsiness - 3)
 		M.sleeping = max(0, M.sleeping - 2)
 	if(M.bodytemperature > 310)
 		M.bodytemperature = max(310, M.bodytemperature - (5 * TEMPERATURE_DAMAGE_COEFFICIENT))
@@ -2302,7 +2341,7 @@
 	..()
 	if(alien == IS_DIONA)
 		return
-	M.drowsyness = max(0, M.drowsyness - 7)
+	M.drowsiness = max(0, M.drowsiness - 7)
 	M.make_jittery(5)
 
 	if (M.bodytemperature > 310)
@@ -2503,14 +2542,14 @@
 
 /decl/reagent/alcohol/jovian_storm
 	name = "Jovian Storm"
-	description = "Named after Jupiter’s storm. It’ll blow you away."
+	description = "Named after Jupiter's storm. It'll blow you away."
 	color = "#AA856A"
 	strength = 15
 	taste_description = "stormy sweetness"
 
 	glass_icon_state = "jovianstormglass"
 	glass_name = "glass of Jovian Storm"
-	glass_desc = "A classic Callistean drink named after Jupiter’s storm. It’ll blow you away."
+	glass_desc = "A classic Callistean drink named after Jupiter's storm. It'll blow you away."
 	glass_center_of_mass = list("x"=16, "y"=5)
 
 /decl/reagent/alcohol/bananahonk
@@ -4156,6 +4195,81 @@
 	glass_name = "glass of Rixulin Sundae"
 	glass_desc = "A fizzing drink that looks like a really great time."
 
+/decl/reagent/alcohol/khlibnyz
+	name = "Khlibnyz"
+	color = "#843113"
+	description = "A fermented beverage produced from Adhomian bread."
+	taste_description = "earthy and salty"
+
+	strength = 5
+	nutriment_factor = 1
+	carbonated = TRUE
+
+	glass_icon_state = "khlibnyz_glass"
+	glass_name = "glass of khlibnyz"
+	glass_desc = "A fermented beverage produced from Adhomian bread."
+
+/decl/reagent/alcohol/shyyrkirrtyr_wine
+	name = "Shyyr Kirr'tyr Wine"
+	color = "#D08457"
+	description = "Tajaran spirit infused with some eel-like Adhomian creature."
+	taste_description = "dry alcohol with a hint of meat"
+
+	strength = 20
+	nutriment_factor = 1
+
+	glass_icon_state = "shyrrkirrtyrwine_glass"
+	glass_name = "glass of shyyr kirr'tyr wine"
+	glass_desc = "Tajaran spirit infused with some eel-like Adhomian creature."
+
+/decl/reagent/alcohol/nmshaan_liquor
+	name = "Nm'shaan Liquor"
+	color = "#FE6B03"
+	description = "A strong Adhomian liquor reserved for special occasions."
+	taste_description = "sweet and silky alcohol"
+
+	strength = 70
+
+	glass_icon_state = "nmshaanliquor_glass"
+	glass_name = "glass of nm'shaan liquor"
+	glass_desc = "A strong Adhomian liquor reserved for special occasions."
+
+/decl/reagent/alcohol/nmshaan_liquor/darmadhirbrew
+	name = "Darmadhir Brew"
+	color = "#E4A769"
+	description = "A rare and expensive brand of nm'shaan liquor."
+	taste_description = "expensive sweet and silky alcohol"
+
+	strength = 75
+
+	glass_icon_state = "darmadhirbrew_glass"
+	glass_name = "glass of Darmadhir Brew"
+	description = "A rare and expensive brand of nm'shaan liquor."
+
+/decl/reagent/alcohol/treebark_firewater
+	name = "Tree-Bark Firewater"
+	color = "#ACAA1D"
+	description = "High-content alcohol distilled from Earthen-Root or Blizzard Ears."
+	taste_description = "earthy and bitter alcohol"
+
+	strength = 65
+
+	glass_icon_state = "treebarkfirewater_glass"
+	glass_name = "glass of tree-bark firewater"
+	glass_desc = "High-content alcohol distilled from Earthen-Root or Blizzard Ears."
+
+/decl/reagent/alcohol/veterans_choice
+	name = "Veteran's Choice"
+	color = "#7C7231"
+	description = "A cocktail consisting of Messa's Mead and gunpowder."
+	taste_description = "honey and salty"
+
+	strength = 25
+
+	glass_icon_state = "veteranschoice_glass"
+	glass_name = "glass of veteran's choice"
+	glass_desc = "A cocktail consisting of Messa's Mead and gunpowder."
+
 // Butanol-based alcoholic drinks
 //=====================================
 //These are mainly for unathi, and have very little (but still some) effect on other species
@@ -4428,7 +4542,7 @@
 	if(alien != IS_DIONA)
 		M.make_jittery(20)
 		M.dizziness += 5
-		M.drowsyness = 0
+		M.drowsiness = 0
 
 /decl/reagent/drink/zorasoda/venomgrass
 	name = "Zo'ra Soda Sour Venom Grass"
@@ -4511,7 +4625,20 @@
 	if(alien != IS_DIONA)
 		M.druggy = max(M.druggy, 30)
 		M.dizziness += 5
-		M.drowsyness = 0
+		M.drowsiness = 0
+
+/decl/reagent/drink/hrozamal_soda
+	name = "Hro'zamal Soda"
+	description = "A cabornated version of the herbal tea made with Hro'zamal Ras'Nifs powder."
+	color = "#F0C56C"
+	adj_sleepy = -1
+	caffeine = 0.2
+	taste_description = "carbonated fruit sweetness"
+	carbonated = TRUE
+
+	glass_icon_state = "hrozamal_soda_glass"
+	glass_name = "glass of Hro'zamal Soda"
+	glass_desc = "A cabornated version of the herbal tea made with Hro'zamal Ras'Nifs powder."
 
 /decl/reagent/nutriment/pumpkinpulp
 	name = "Pumpkin Pulp"
@@ -4592,3 +4719,14 @@
 	condiment_desc = "A vegetarian friendly way to add a little extra pizazz to any dish."
 	condiment_icon_state = "dionaepowder"
 	condiment_center_of_mass = list("x"=16, "y"=10)
+
+/decl/reagent/drink/midynhr_water
+	name = "Midynhr Water"
+	description = "A soft drink made from honey and tree syrup."
+	color = "#95D44C"
+	taste_description = "creamy sweetness"
+
+	glass_icon_state = "midynhrwater_glass"
+	glass_name = "glass of midynhr water"
+	glass_desc = "A soft drink made from honey and tree syrup."
+	glass_center_of_mass = list("x"=15, "y"=9)

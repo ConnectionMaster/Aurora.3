@@ -81,7 +81,7 @@
 //Used by throw code to hand over the mob, instead of throwing the grab. The grab is then deleted by the throw code.
 /obj/item/grab/proc/throw_held()
 	if(affecting)
-		if(affecting.buckled)
+		if(affecting.buckled_to)
 			return null
 		if(state >= GRAB_AGGRESSIVE)
 			animate(affecting, pixel_x = affecting.get_standard_pixel_x(), pixel_y = affecting.get_standard_pixel_y(), 4, 1)
@@ -203,13 +203,13 @@
 /obj/item/grab/proc/adjust_position()
 	if(!affecting)
 		return
-	if(affecting.buckled)
+	if(affecting.buckled_to)
 		animate(affecting, pixel_x = affecting.get_standard_pixel_x(), pixel_y = affecting.get_standard_pixel_y(), 4, 1, LINEAR_EASING)
 		return
-	if(affecting.lying && state != GRAB_KILL)
+	if(affecting.lying || force_down)
+		affecting.update_canmove()
 		animate(affecting, pixel_x = affecting.get_standard_pixel_x(), pixel_y = affecting.get_standard_pixel_y(), 5, 1, LINEAR_EASING)
-		if(force_down)
-			affecting.set_dir(SOUTH) //face up
+		affecting.set_dir(SOUTH)
 		return
 	var/shift = 0
 	var/adir = get_dir(assailant, affecting)
@@ -225,11 +225,13 @@
 		if(GRAB_NECK, GRAB_UPGRADING)
 			shift = -10
 			adir = assailant.dir
+			affecting.update_canmove()
 			affecting.set_dir(assailant.dir)
 			affecting.forceMove(assailant.loc)
 		if(GRAB_KILL)
 			shift = 0
 			adir = 1
+			affecting.update_canmove()
 			affecting.set_dir(SOUTH) //face up
 			affecting.forceMove(assailant.loc)
 
@@ -270,9 +272,9 @@
 		if(!allow_upgrade)
 			return
 		if(!affecting.lying)
-			assailant.visible_message(SPAN_WARNING("[assailant] grabs [affecting] aggressively by the hands!"), SPAN_WARNING("You grab [affecting] aggressively by the hands!"))
+			assailant.visible_message(SPAN_DANGER("[assailant] grabs [affecting] aggressively by the hands!"), SPAN_DANGER("You grab [affecting] aggressively by the hands!"))
 		else
-			assailant.visible_message(SPAN_WARNING("[assailant] pins [affecting] down to the ground by the hands!"), SPAN_WARNING("You pin [affecting] down to the ground by the hands!"))
+			assailant.visible_message(SPAN_DANGER("[assailant] pins [affecting] down to the ground by the hands!"), SPAN_DANGER("You pin [affecting] down to the ground by the hands!"))
 			apply_pinning(affecting, assailant)
 
 		state = GRAB_AGGRESSIVE
@@ -283,7 +285,7 @@
 			assailant.visible_message(SPAN_WARNING("[assailant] tries to squeeze [affecting], but [assailant.get_pronoun("his")] hands sink right through!"), SPAN_WARNING("You try to squeeze [affecting], but your hands sink right through!"))
 			return
 		playsound(loc, /decl/sound_category/grab_sound, 50, FALSE, -1)
-		assailant.visible_message(SPAN_WARNING("[assailant] reinforces [assailant.get_pronoun("his")] grip on [affecting]'s neck!"), SPAN_WARNING("You reinforce your grip on [affecting]'s neck!"))
+		assailant.visible_message(SPAN_DANGER("[assailant] reinforces [assailant.get_pronoun("his")] grip on [affecting]'s neck!"), SPAN_DANGER("You reinforce your grip on [affecting]'s neck!"))
 		state = GRAB_NECK
 		icon_state = "grabbed+1"
 		affecting.attack_log += "\[[time_stamp()]\] <font color='orange'>Has had their neck grabbed by [assailant.name] ([assailant.ckey])</font>"
@@ -323,7 +325,7 @@
 
 //This is used to make sure the victim hasn't managed to yackety sax away before using the grab.
 /obj/item/grab/proc/confirm()
-	if(!assailant || !affecting)
+	if(!assailant || !affecting || QDELETED(affecting))
 		qdel(src)
 		return 0
 
@@ -369,7 +371,7 @@
 					if(hit_zone == BP_EYES)
 						attack_eye(affecting, assailant)
 					else if(hit_zone == BP_HEAD)
-						headbut(affecting, assailant)
+						headbutt(affecting, assailant)
 					else
 						dislocate(affecting, assailant, hit_zone)
 

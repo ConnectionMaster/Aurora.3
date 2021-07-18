@@ -23,6 +23,7 @@
 #define INCORPOREAL_NINJA   2 // Pass through matter with a cool effect
 #define INCORPOREAL_BSTECH  3 // Like ninja, but also go across Z-levels and move in space freely
 #define INCORPOREAL_SHADE   4 // Shady
+#define INCORPOREAL_MECH    5 // stripped down bstech
 
 // Grab levels.
 #define GRAB_PASSIVE    1
@@ -59,13 +60,10 @@
 #define PULSE_MAX_BPM 250 // Highest, readable BPM by machines and humans.
 
 // Blood pressure levels, simplified
-#define BP_HIGH_SYSTOLIC 		140
-#define BP_PRE_HIGH_SYSTOLIC 	125
-#define BP_IDEAL_SYSTOLIC		80
-
-#define BP_HIGH_DIASTOLIC 		100
-#define BP_PRE_HIGH_DIASTOLIC	85
-#define BP_IDEAL_DIASTOLIC 		60
+#define HIGH_BP_MOD 20
+#define PRE_HIGH_BP_MOD 5
+#define BP_SYS_IDEAL_MOD 40
+#define BP_DIS_IDEAL_MOD 20
 
 #define BLOOD_PRESSURE_HIGH     4
 #define BLOOD_PRESSURE_PRE_HIGH 3
@@ -146,17 +144,24 @@
 #define BP_AUG_PEN          "retractable combipen"
 #define BP_AUG_LIGHTER      "retractable lighter"
 #define BP_AUG_HEALTHSCAN   "integrated health scanner"
+#define BP_AUG_GUSTATORIAL   "integrated gustatorial centre"
 #define BP_AUG_TESLA        "tesla spine"
 #define BP_AUG_EYE_SENSORS  "integrated eyes sensors"
 #define BP_AUG_HAIR         "synthetic hair extensions"
-#define BP_AUG_SUSPENSION   "calf suspension"
+#define BP_AUG_CORDS           "synthetic vocal cords"
+#define BP_AUG_COCHLEAR        "cochlear implant"
+#define BP_AUG_SUSPENSION      "calf suspension"
 #define BP_AUG_TASTE_BOOSTER   "taste booster"
-#define BP_AUG_RADIO        "integrated radio"
-#define BP_AUG_FUEL_CELL    "integrated fuel cell"
-#define BP_AUG_AIR_ANALYZER "integrated air analyzer"
-#define BP_AUG_LANGUAGE     "integrated language processor"
-#define BP_AUG_PSI         "psionic receiver"
-#define BP_AUG_CALF_OVERRIDE     "calf overdrive"
+#define BP_AUG_RADIO           "integrated radio"
+#define BP_AUG_FUEL_CELL       "integrated fuel cell"
+#define BP_AUG_AIR_ANALYZER    "integrated air analyzer"
+#define BP_AUG_LANGUAGE        "integrated language processor"
+#define BP_AUG_PSI             "psionic receiver"
+#define BP_AUG_CALF_OVERRIDE   "calf overdrive"
+#define BP_AUG_MEMORY          "memory inhibitor"
+#define BP_AUG_EMOTION         "emotional manipulator"
+#define BP_AUG_ENCHANED_VISION "vision enhanced retinas"
+#define BP_AUG_SIGHTLIGHTS     "ocular installed sightlights"
 
 //Organ defines
 #define PROCESS_ACCURACY 10
@@ -207,19 +212,21 @@
 #define MAX_SUPPLIED_LAW_NUMBER 50
 
 //default item on-mob icons
-#define INV_HEAD_DEF_ICON 'icons/mob/head.dmi'
-#define INV_BACK_DEF_ICON 'icons/mob/back.dmi'
-#define INV_L_HAND_DEF_ICON 'icons/mob/items/lefthand.dmi'
-#define INV_R_HAND_DEF_ICON 'icons/mob/items/righthand.dmi'
-#define INV_W_UNIFORM_DEF_ICON 'icons/mob/uniform.dmi'
-#define INV_ACCESSORIES_DEF_ICON 'icons/mob/ties.dmi'
-#define INV_SUIT_DEF_ICON 'icons/mob/suit.dmi'
-#define INV_L_EAR_DEF_ICON 'icons/mob/l_ear.dmi'
-#define INV_R_EAR_DEF_ICON 'icons/mob/r_ear.dmi'
-#define INV_SHOES_DEF_ICON 'icons/mob/feet.dmi'
+#define INV_HEAD_DEF_ICON			'icons/mob/head.dmi'
+#define INV_BACK_DEF_ICON			'icons/mob/back.dmi'
+#define INV_L_HAND_DEF_ICON			'icons/mob/items/lefthand.dmi'
+#define INV_R_HAND_DEF_ICON			'icons/mob/items/righthand.dmi'
+#define INV_W_UNIFORM_DEF_ICON		'icons/mob/uniform.dmi'
+#define INV_ACCESSORIES_DEF_ICON	'icons/mob/ties.dmi'
+#define INV_BELT_DEF_ICON 'icons/mob/belt.dmi'
+#define INV_SUIT_DEF_ICON			'icons/mob/suit.dmi'
+#define INV_L_EAR_DEF_ICON			'icons/mob/l_ear.dmi'
+#define INV_R_EAR_DEF_ICON			'icons/mob/r_ear.dmi'
+#define INV_SHOES_DEF_ICON			'icons/mob/feet.dmi'
+#define INV_WRISTS_DEF_ICON			'icons/mob/wrist.dmi'
 
 // IPC tags
-#define IPC_OWNERSHIP_SELF "Self Owned"
+#define IPC_OWNERSHIP_SELF	  "Self Owned"
 #define IPC_OWNERSHIP_COMPANY "Company Owned"
 #define IPC_OWNERSHIP_PRIVATE "Privately Owned"
 
@@ -375,15 +382,18 @@
 #define BRAIN_DAMAGE_MILD 10
 #define BRAIN_DAMAGE_SEVERE 40
 
-#define BRAIN_TRAUMA_MILD /datum/brain_trauma/mild
-#define BRAIN_TRAUMA_SEVERE /datum/brain_trauma/severe
-#define BRAIN_TRAUMA_SPECIAL /datum/brain_trauma/special
-
 #define CURE_CRYSTAL "crystal"
 #define CURE_SOLITUDE "solitude"
 #define CURE_HYPNOSIS "hypnosis"
 #define CURE_SURGERY "surgery"
 #define CURE_ADMIN "all"
+
+// triage tags
+#define TRIAGE_NONE "None"
+#define TRIAGE_GREEN "Green"
+#define TRIAGE_YELLOW "Yellow"
+#define TRIAGE_RED "Red"
+#define TRIAGE_BLACK "Black"
 
 // Surgery Stuff
 #define SURGERY_SUCCESS 2 // Proceed with surgery

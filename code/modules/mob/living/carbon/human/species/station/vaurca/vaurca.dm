@@ -7,6 +7,7 @@
 	age_min = 1
 	age_max = 20
 	default_genders = list(NEUTER)
+	selectable_pronouns = null
 	economic_modifier = 2
 	language = LANGUAGE_VAURCA
 	primitive_form = SPECIES_MONKEY_VAURCA
@@ -69,7 +70,7 @@
 	heat_level_1 = 330 //Default 360
 	heat_level_2 = 380 //Default 400
 	heat_level_3 = 600 //Default 1000
-	flags = NO_SLIP | NO_CHUBBY | NO_ARTERIES
+	flags = NO_SLIP | NO_CHUBBY | NO_ARTERIES | PHORON_IMMUNE
 	spawn_flags = CAN_JOIN | IS_WHITELISTED | NO_AGE_MINIMUM
 	appearance_flags = HAS_SKIN_COLOR | HAS_HAIR_COLOR
 	blood_color = COLOR_VAURCA_BLOOD // dark yellow
@@ -155,3 +156,6 @@
 
 /datum/species/bug/has_psi_potential()
 	return FALSE
+	
+/datum/species/bug/is_naturally_insulated()
+	return TRUE

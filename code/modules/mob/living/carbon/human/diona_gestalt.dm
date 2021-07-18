@@ -100,7 +100,7 @@
 	if (severity)
 		damage_factor = (1 / severity)
 
-	var/armorval = 	getarmor(null, "bomb")
+	var/armorval = get_blocked_ratio(BP_CHEST, BRUTE, DAM_DISPERSED, damage = damage)
 	if (armorval)
 		damage_factor *= (1 - (armorval * 0.01))
 
@@ -278,6 +278,7 @@
 	M.detached = TRUE
 	M.update_verbs(TRUE)
 	M.languages = languages.Copy()
+	M.accent = accent
 
 	update_dionastats() //Re-find the organs in case they were lost or regained
 	nutrition -= REGROW_FOOD_REQ

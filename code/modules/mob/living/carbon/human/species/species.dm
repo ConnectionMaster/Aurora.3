@@ -12,10 +12,11 @@
 	var/category_name                                    // a name for this overarching species, ie 'Human', 'Skrell', 'IPC'. only used in character creation
 	var/blurb = "A completely nondescript species."      // A brief lore summary for use in the chargen screen.
 	var/bodytype
-	var/age_min = 17
+	var/age_min = 18
 	var/age_max = 85
 	var/economic_modifier = 0
 	var/list/default_genders = list(MALE, FEMALE)
+	var/list/selectable_pronouns = list(MALE, FEMALE, PLURAL)
 
 	// Icon/appearance vars.
 	var/icobase = 'icons/mob/human_races/human/r_human.dmi'    // Normal icon set.
@@ -167,6 +168,9 @@
 	var/healths_x // set this to specify where exactly the healths HUD element appears
 	var/healths_overlay_x = 0 // set this to tweak where the overlays on top of the healths HUD element goes
 
+	var/list/equip_overlays
+	var/list/equip_adjust
+
 	// Body/form vars.
 	var/list/inherent_verbs 	  // Species-specific verbs.
 	var/list/inherent_spells 	  // Species-specific spells.
@@ -189,6 +193,17 @@
 	var/sprint_speed_factor = 0.7	// The percentage of bonus speed you get when sprinting. 0.4 = 40%
 	var/sprint_cost_factor = 0.9  	// Multiplier on stamina cost for sprinting
 	var/exhaust_threshold = 50	  	// When stamina runs out, the mob takes oxyloss up til this value. Then collapses and drops to walk
+
+	// Pulse modifiers
+	var/low_pulse = 40
+	var/norm_pulse = 60
+	var/fast_pulse = 90
+	var/v_fast_pulse = 120
+	var/max_pulse = 160
+
+	// Blood pressure modifiers
+	var/bp_base_systolic = 120
+	var/bp_base_disatolic = 80
 
 	var/gluttonous = 0            // Can eat some mobs. Values can be GLUT_TINY, GLUT_SMALLER, GLUT_ANYTHING, GLUT_ITEM_TINY, GLUT_ITEM_NORMAL, GLUT_ITEM_ANYTHING, GLUT_PROJECTILE_VOMIT
 	var/stomach_capacity = 5      // How much stuff they can stick in their stomach
@@ -241,10 +256,11 @@
 	var/default_g_style = "None"
 
 	var/list/allowed_citizenships = list(CITIZENSHIP_BIESEL, CITIZENSHIP_SOL, CITIZENSHIP_COALITION, CITIZENSHIP_ELYRA, CITIZENSHIP_ERIDANI, CITIZENSHIP_DOMINIA)
-	var/list/allowed_religions = list(RELIGION_NONE, RELIGION_OTHER, RELIGION_CHRISTIANITY, RELIGION_ISLAM, RELIGION_JUDAISM, RELIGION_HINDU, RELIGION_BUDDHISM, RELIGION_MOROZ, RELIGION_TRINARY, RELIGION_SCARAB, RELIGION_TAOISM)
+	var/list/allowed_religions = list(RELIGION_NONE, RELIGION_OTHER, RELIGION_CHRISTIANITY, RELIGION_ISLAM, RELIGION_JUDAISM, RELIGION_HINDU, RELIGION_BUDDHISM, RELIGION_MOROZ, RELIGION_TRINARY, RELIGION_SCARAB, RELIGION_TAOISM, RELIGION_LUCEISM)
 	var/default_citizenship = CITIZENSHIP_BIESEL
 	var/list/allowed_accents = list(ACCENT_CETI, ACCENT_GIBSON, ACCENT_SOL, ACCENT_MARTIAN, ACCENT_LUNA, ACCENT_VENUS, ACCENT_VENUSJIN, ACCENT_JUPITER, ACCENT_COC, ACCENT_ELYRA, ACCENT_ERIDANI,
-									ACCENT_ERIDANIDREG, ACCENT_VYSOKA, ACCENT_HIMEO, ACCENT_PHONG, ACCENT_SILVERSUN, ACCENT_DOMINIA, ACCENT_KONYAN, ACCENT_EUROPA, ACCENT_EARTH, ACCENT_NCF, ACCENT_FISANDUH, ACCENT_GADPATHUR)
+									ACCENT_ERIDANIDREG, ACCENT_VYSOKA, ACCENT_HIMEO, ACCENT_PHONG, ACCENT_SILVERSUN_ORIGINAL, ACCENT_SILVERSUN_EXPATRIATE, ACCENT_DOMINIA_HIGH, ACCENT_DOMINIA_VULGAR, ACCENT_KONYAN, ACCENT_EUROPA, ACCENT_EARTH, ACCENT_NCF, ACCENT_FISANDUH, ACCENT_GADPATHUR,
+									ACCENT_PLUTO, ACCENT_ASSUNZIONE)
 	var/default_accent = ACCENT_CETI
 	var/zombie_type	//What zombie species they become
 	var/list/character_color_presets
@@ -293,7 +309,7 @@
 	for(var/obj/item/clothing/clothes in H)
 		if(H.l_hand == clothes|| H.r_hand == clothes)
 			continue
-		if((clothes.body_parts_covered & UPPER_TORSO) && (clothes.body_parts_covered & LOWER_TORSO))
+		if((clothes.body_parts_covered & UPPER_TORSO) && (clothes.body_parts_covered & LOWER_TORSO) && !clothes.no_overheat)
 			covered = 1
 			break
 
@@ -423,6 +439,7 @@
 			H.dna.SetSEState(MONKEYBLOCK,0)
 	if(!H.client || !H.client.prefs || !H.client.prefs.gender)
 		H.gender = pick(default_genders)
+		H.pronouns = H.gender
 
 /datum/species/proc/handle_death(var/mob/living/carbon/human/H, var/gibbed = 0) //Handles any species-specific death events (such as dionaea nymph spawns).
 	return
@@ -519,6 +536,10 @@
 	for(var/overlay in H.equipment_overlays)
 		H.client.screen |= overlay
 
+	var/obj/item/organ/internal/eyes/night/NE = H.internal_organs_by_name[BP_EYES]
+	if(istype(NE) && NE.night_vision && NE.can_change_invisible())
+		H.set_see_invisible(SEE_INVISIBLE_NOLIGHTING)
+
 	return 1
 
 /datum/species/proc/get_how_nearsighted(var/mob/living/carbon/human/H)
@@ -529,11 +550,16 @@
 		prescriptions -= H.equipment_prescription
 	return Clamp(prescriptions, 0, 7)
 
-/datum/species/proc/handle_sprint_cost(var/mob/living/carbon/human/H, var/cost)
+// pre_move is set to TRUE when the mob checks whether it's even possible to move, so resources aren't drained until after the move completes
+// once the mob moves and its loc actually changes, the pre_move is set to FALSE and all the proper resources are drained
+/datum/species/proc/handle_sprint_cost(var/mob/living/carbon/human/H, var/cost, var/pre_move)
 	if (!H.exhaust_threshold)
 		return 1 // Handled.
 
+	cost += H.getOxyLoss() * 0.1 //The less oxygen we get, the more we strain. 
 	cost *= H.sprint_cost_factor
+	if(H.is_drowsy())
+		cost *= 1.25
 	if (H.stamina == -1)
 		log_debug("Error: Species with special sprint mechanics has not overridden cost function.")
 		return 0
@@ -541,44 +567,50 @@
 	var/obj/item/organ/internal/augment/calf_override/C = H.internal_organs_by_name[BP_AUG_CALF_OVERRIDE]
 	if(C && !C.is_broken())
 		cost = 0
-		C.do_run_act()
+		if(!pre_move)
+			C.do_run_act()
 
 	var/remainder = 0
 	if (H.stamina > cost)
-		H.stamina -= cost
-		H.hud_used.move_intent.update_move_icon(H)
+		if(!pre_move)
+			H.stamina -= cost
+			H.hud_used.move_intent.update_move_icon(H)
 		return 1
 	else if (H.stamina > 0)
 		remainder = cost - H.stamina
-		H.stamina = 0
+		if(!pre_move)
+			H.stamina = 0
 	else
 		remainder = cost
 
-	if(H.disabilities & ASTHMA)
+	if(!pre_move && (H.disabilities & ASTHMA))
 		H.adjustOxyLoss(remainder*0.15)
 
-	if(H.disabilities & COUGHING)
+	if(!pre_move && (H.disabilities & COUGHING))
 		H.adjustHalLoss(remainder*0.1)
 
-	if (breathing_organ && has_organ[breathing_organ])
+	if(!pre_move && breathing_organ && has_organ[breathing_organ])
 		var/obj/item/organ/O = H.internal_organs_by_name[breathing_organ]
 		if(O.is_bruised())
 			H.adjustOxyLoss(remainder*0.15)
 			H.adjustHalLoss(remainder*0.25)
+		H.adjustOxyLoss(remainder * 0.2) //Keeping oxyloss small when out of stamina to prevent old issue where running until exhausted sometimes gave you brain damage.
 
-	H.adjustHalLoss(remainder*0.25)
-	H.updatehealth()
-	if((H.get_shock() >= 10) && prob(H.get_shock() *2))
-		H.flash_pain(H.get_shock())
+	if(!pre_move)
+		H.adjustHalLoss(remainder*0.3)
+		H.updatehealth()
+		if((H.get_shock() >= 10) && prob(H.get_shock() *2))
+			H.flash_pain(H.get_shock())
 
-	if ((H.get_shock() + H.getOxyLoss()) >= (exhaust_threshold * 0.8))
+	if((H.get_shock() + H.getOxyLoss()*2) >= (exhaust_threshold * 0.8))
 		H.m_intent = M_WALK
 		H.hud_used.move_intent.update_move_icon(H)
 		to_chat(H, SPAN_DANGER("You're too exhausted to run anymore!"))
 		H.flash_pain(H.get_shock())
 		return 0
 
-	H.hud_used.move_intent.update_move_icon(H)
+	if(!pre_move)
+		H.hud_used.move_intent.update_move_icon(H)
 	return 1
 
 /datum/species/proc/get_light_color(mob/living/carbon/human/H)
@@ -588,9 +620,17 @@
 	return FALSE
 
 /datum/species/proc/get_move_trail(var/mob/living/carbon/human/H)
-	if( H.shoes || ( H.wear_suit && (H.wear_suit.body_parts_covered & FEET) ) )
-		return /obj/effect/decal/cleanable/blood/tracks/footprints
-	else
+	if(H.lying)
+		return /obj/effect/decal/cleanable/blood/tracks/body
+	else if(H.shoes || (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)))
+		var/obj/item/clothing/shoes
+		if(H.wear_suit && (H.wear_suit.body_parts_covered & FEET))
+			shoes = H.wear_suit
+			. = shoes.move_trail
+		if(H.shoes && !.)
+			shoes = H.shoes
+			. = shoes.move_trail
+	if(!.)
 		return move_trail
 
 /datum/species/proc/bullet_act(var/obj/item/projectile/P, var/def_zone, var/mob/living/carbon/human/H)
@@ -656,3 +696,12 @@
 
 /datum/species/proc/get_injection_modifier()
 	return injection_mod
+
+/datum/species/proc/is_naturally_insulated()
+	return FALSE
+
+// the records var is so that untagged shells can appear human
+/datum/species/proc/get_species(var/reference, var/mob/living/carbon/human/H, var/records)
+	if(reference)
+		return src
+	return name

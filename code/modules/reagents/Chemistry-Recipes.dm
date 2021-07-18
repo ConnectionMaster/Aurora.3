@@ -382,6 +382,13 @@
 	required_reagents = list(/decl/reagent/cryptobiolin = 1, /decl/reagent/dylovene = 1)
 	result_amount = 2
 
+/datum/chemical_reaction/steramycin
+	name = "Steramycin"
+	id = "steramycin"
+	result = /decl/reagent/steramycin
+	required_reagents = list(/decl/reagent/thetamycin = 2, /decl/reagent/sterilizine = 1, /decl/reagent/radium = 1)
+	result_amount = 2
+
 /datum/chemical_reaction/cetahydramine
 	name = "Cetahydramine"
 	id = "cetahydramine"
@@ -1114,7 +1121,6 @@
 		/mob/living/simple_animal/hostile/syndicate/ranged/space,
 		/mob/living/simple_animal/hostile/alien/queen/large,
 		/mob/living/simple_animal/hostile/faithless,
-		/mob/living/simple_animal/hostile/faithless/wizard,
 		/mob/living/simple_animal/hostile/retaliate,
 		/mob/living/simple_animal/hostile/retaliate/clown,
 		/mob/living/simple_animal/hostile/alien,
@@ -3203,7 +3209,7 @@
 	name = "Transmutation: Gold"
 	id = "transmutation_gold"
 	result = null
-	required_reagents = list(/decl/reagent/aluminum = 5, MATERIAL_SILVER = 5)
+	required_reagents = list(/decl/reagent/aluminum = 5, /decl/reagent/silver = 5)
 	catalysts = list(/decl/reagent/philosopher_stone = 1)
 	result_amount = 1
 
@@ -3217,7 +3223,7 @@
 	name = "Transmutation: Diamond"
 	id = "transmutation_diamond"
 	result = null
-	required_reagents = list(/decl/reagent/carbon = 5, MATERIAL_GOLD = 5)
+	required_reagents = list(/decl/reagent/carbon = 5, /decl/reagent/gold = 5)
 	catalysts = list(/decl/reagent/philosopher_stone = 1)
 	result_amount = 1
 
@@ -3483,3 +3489,26 @@
 	result = /decl/reagent/alcohol/fisfirebomb
 	required_reagents = list(/decl/reagent/alcohol/ale = 1, /decl/reagent/alcohol/fiscream = 1)
 	result_amount = 2
+
+/datum/chemical_reaction/drink/veterans_choice
+	name = "Veteran's Choice"
+	id = "veterans_choice"
+	result = /decl/reagent/alcohol/veterans_choice
+	required_reagents = list(/decl/reagent/alcohol/messa_mead = 1, /decl/reagent/gunpowder = 1)
+	result_amount = 2
+
+/datum/chemical_reaction/drink/mutthir
+	name = "Mutthir"
+	id = "mutthir"
+	result = /decl/reagent/drink/milk/adhomai/mutthir
+	required_reagents = list(/decl/reagent/drink/milk/adhomai = 1, /decl/reagent/sugar = 1)
+	catalysts = list(/decl/reagent/enzyme = 5)
+	result_amount = 2
+
+/datum/chemical_reaction/drink/treebark_firewater
+	name = "Tree-Bark Firewater"
+	id = "treebark_firewater"
+	result = /decl/reagent/alcohol/treebark_firewater
+	required_reagents = list(/decl/reagent/drink/earthenrootjuice = 1, /decl/reagent/sugar = 1, /decl/reagent/woodpulp = 1)
+	catalysts = list(/decl/reagent/enzyme = 5)
+	result_amount = 3

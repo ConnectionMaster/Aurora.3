@@ -17,6 +17,7 @@
 	var/list/datum/job/type_occupations = list()	//Dict of all jobs, keys are types
 	var/list/mob/abstract/new_player/unassigned = list()
 	var/list/job_debug = list()
+	var/list/bitflag_to_job = list()
 
 	var/list/factions = list()
 	var/list/name_factions = list()
@@ -59,6 +60,9 @@
 		occupations += job
 		name_occupations[job.title] = job
 		type_occupations[J] = job
+		if(!length(bitflag_to_job["[job.department_flag]"]))
+			bitflag_to_job["[job.department_flag]"] = list()
+		bitflag_to_job["[job.department_flag]"]["[job.flag]"] = job
 		if (config && config.use_age_restriction_for_jobs)
 			job.fetch_age_restriction()
 
@@ -305,6 +309,11 @@
 
 	Debug("ER/([H]): Entry, joined_late=[joined_late],megavend=[megavend].")
 
+	if(SSatlas.current_sector.description)
+		var/sector_desc = "<hr><div align='center'><hr1><B>Current Sector: [SSatlas.current_sector.name]!</B></hr1><br>"
+		sector_desc += "<i>[SSatlas.current_sector.description]</i><hr></div>"
+		to_chat(H, sector_desc)
+
 	var/datum/job/job = GetJob(rank)
 	var/list/spawn_in_storage = list()
 
@@ -342,9 +351,9 @@
 			LateSpawn(H, rank)
 
 		// Moving wheelchair if they have one
-		if(H.buckled && istype(H.buckled, /obj/structure/bed/chair/wheelchair))
-			H.buckled.forceMove(H.loc)
-			H.buckled.set_dir(H.dir)
+		if(H.buckled_to && istype(H.buckled_to, /obj/structure/bed/chair/wheelchair))
+			H.buckled_to.forceMove(H.loc)
+			H.buckled_to.set_dir(H.dir)
 
 	if(H.mind)
 		// If they're a department supervisor/head give them the account info for that department
@@ -748,7 +757,7 @@
 			else
 				permitted = TRUE
 
-			if(G.whitelisted && (!(H.species.name in G.whitelisted)))
+			if(!G.check_species_whitelist(H))
 				permitted = FALSE
 
 			if(G.faction && G.faction != H.employer_faction)
@@ -767,7 +776,7 @@
 					metadata = gear_test
 				else
 					metadata = list()
-				var/obj/item/CI = G.spawn_item(null,metadata)
+				var/obj/item/CI = G.spawn_item(null,metadata, H)
 				if (G.slot == slot_wear_mask || G.slot == slot_wear_suit || G.slot == slot_head)
 					if (leftovers)
 						leftovers += thing
@@ -806,7 +815,7 @@
 				metadata = gear_test
 			else
 				metadata = list()
-			var/obj/item/CI = G.spawn_item(H, metadata)
+			var/obj/item/CI = G.spawn_item(H, metadata, H)
 			if (H.equip_to_slot_or_del(CI, G.slot))
 				to_chat(H, "<span class='notice'>Equipping you with [thing]!</span>")
 				used_slots += G.slot
@@ -837,7 +846,7 @@
 					metadata = gear_test
 				else
 					metadata = list()
-				G.spawn_item(B, metadata)
+				G.spawn_item(B, metadata, H)
 				Debug("EIS/([H]): placed [thing] in [B].")
 
 		else
@@ -918,7 +927,7 @@
 				metadata = gear_test
 			else
 				metadata = list()
-			var/obj/item/organ/A = G.spawn_item(H, metadata)
+			var/obj/item/organ/A = G.spawn_item(H, metadata, H)
 			var/obj/item/organ/external/affected = H.get_organ(A.parent_organ)
 			A.replaced(H, affected)
 			H.update_body()

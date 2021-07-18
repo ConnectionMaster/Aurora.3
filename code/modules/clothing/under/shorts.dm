@@ -29,6 +29,13 @@
 	icon_state = "greyshorts"
 	item_state = "greyshorts"
 
+/obj/item/clothing/under/shorts/scc
+	name = "Stellar Corporate Conglomerate shorts"
+	desc = "Shorts displaying the wearer's pride in their assigned corporate entity."
+	desc_fluff = "The Stellar Corporate Conglomerate, also known as Chainlink, is a joint alliance between the NanoTrasen Corporation, Hephaestus Industries, Idris Incorporated, Zeng-Hu Pharmaceuticals and Zavodskoi Interstellar to exercise an undisputed economic dominance over the Orion Spur."
+	icon_state = "sccshorts"
+	item_state = "sccshorts"
+
 /obj/item/clothing/under/shorts/jeans
 	name = "jeans shorts"
 	desc = "Some jeans! Just in short form!"
@@ -107,7 +114,7 @@
 	icon = 'icons/obj/pants.dmi'
 	icon_state = "jeans"
 	item_state = "jeans"
-	contained_sprite = 1
+	contained_sprite = TRUE
 	gender = PLURAL
 	body_parts_covered = LOWER_TORSO|LEGS
 
@@ -117,7 +124,7 @@
 	icon = 'icons/obj/tracksuit.dmi'
 	icon_state = "trackpants"
 	item_state = "trackpants"
-	contained_sprite = 1
+	contained_sprite = TRUE
 
 /obj/item/clothing/under/pants/track/blue
 	name = "blue track pants"
@@ -150,6 +157,14 @@
 	desc = "Made in the finest space jeans factory this side of Tau Ceti."
 	icon_state = "jeansmustang"
 	item_state = "jeansmustang"
+
+/obj/item/clothing/under/pants/musthangcolour
+	name = "must hang jeans"
+	desc = "Made in the finest space jeans factory this side of Tau Ceti."
+	icon_state = "mustangcolour"
+	item_state = "mustangcolour"
+	build_from_parts = TRUE
+	worn_overlay = "belt"
 
 /obj/item/clothing/under/pants/jeansblack
 	name = "black jeans"
@@ -205,11 +220,25 @@
 	icon_state = "designer_jeans"
 	item_state = "designer_jeans"
 
+/obj/item/clothing/under/pants/tailoredjeans
+	name = "tailored jeans"
+	desc = "Close fitting denim jeans carefully distressed to perfection. They're not as rugged as they look."
+	icon_state = "tailored_jeans"
+	item_state = "tailored_jeans"
+	build_from_parts = TRUE
+	worn_overlay = "belt"
+
 /obj/item/clothing/under/pants/dress
 	name = "dress pants"
 	desc = "A pair of suit trousers. The rest of the outfit can't have gone far."
 	icon_state = "dresspants"
 	item_state = "dresspants"
+
+/obj/item/clothing/under/pants/dress/belt
+	name = "dress pants"
+	desc = "A pair of suit trousers. Comes with a belt, to secure your burdens."
+	icon_state = "dresspants_belt"
+	item_state = "dresspants_belt"
 
 /obj/item/clothing/under/pants/striped
 	name = "striped pants"

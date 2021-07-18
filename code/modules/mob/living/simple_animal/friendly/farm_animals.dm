@@ -29,6 +29,7 @@
 	canbrush = TRUE
 	emote_sounds = list('sound/effects/creatures/goat.ogg')
 	has_udder = TRUE
+	hostile_nameable = TRUE
 
 	butchering_products = list(/obj/item/stack/material/animalhide = 3)
 
@@ -47,7 +48,9 @@
 	..()
 	//chance to go crazy and start wacking stuff
 	if(!enemies.len && prob(1))
-		Retaliate()
+		var/mob/living/L = locate() in oview(world.view, src)
+		if(L)
+			handle_attack_by(L)
 
 	if(enemies.len && prob(10))
 		enemies = list()
@@ -60,10 +63,10 @@
 			var/step = get_step_to(src, food, 0)
 			Move(step)
 
-/mob/living/simple_animal/hostile/retaliate/goat/Retaliate()
+/mob/living/simple_animal/hostile/retaliate/goat/handle_attack_by(mob/M)
 	..()
 	if(stat == CONSCIOUS)
-		visible_message("<span class='warning'>[src] gets an evil-looking gleam in their eye.</span>")
+		visible_message(SPAN_WARNING("[src] gets an evil-looking gleam in their eye."))
 
 /mob/living/simple_animal/hostile/retaliate/goat/Move()
 	..()
@@ -141,7 +144,7 @@
 	attacktext = "kicked"
 	health = 120
 	emote_sounds = list('sound/effects/creatures/pigsnort.ogg')
-	butchering_products = list(/obj/item/stack/material/hairlesshide = 6)
+	butchering_products = list(/obj/item/stack/material/animalhide/barehide = 6)
 	forbidden_foods = list(/obj/item/reagent_containers/food/snacks/egg)
 
 /mob/living/simple_animal/chick

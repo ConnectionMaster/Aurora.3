@@ -21,7 +21,7 @@
 	mob_size = 10
 
 	blood_overlay_icon = 'icons/mob/npc/blood_overlay_carp.dmi'
-	harm_intent_damage = 8
+	harm_intent_damage = 4
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	attacktext = "bitten"
@@ -53,7 +53,7 @@
 		blood_overlay_icon = 'icons/mob/npc/blood_overlay.dmi'
 	else
 		blood_overlay_icon = initial(blood_overlay_icon)
-	handle_blood_overlay(TRUE)
+	handle_blood(TRUE)
 
 /mob/living/simple_animal/hostile/carp/Allow_Spacemove(var/check_drift = 0)
 	return 1	//No drifting in space for space carp!	//original comments do not steal
@@ -136,7 +136,6 @@
 
 	mob_size = 15
 
-	harm_intent_damage = 5
 	melee_damage_lower = 20
 	melee_damage_upper = 25
 

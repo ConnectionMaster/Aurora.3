@@ -43,10 +43,13 @@
 /obj/item/reagent_containers/glass/get_additional_forensics_swab_info()
 	var/list/additional_evidence = ..()
 	var/list/Bdata = REAGENT_DATA(reagents, /decl/reagent/blood/)
+	var/list/blood_Data = list(
+		Bdata["blood_DNA"] = Bdata["blood_type"]
+	)
 	if(Bdata)
 		additional_evidence["type"] = EVIDENCE_TYPE_BLOOD
 		additional_evidence["sample_type"] = "blood"
-		additional_evidence["dna"] += Bdata["blood_DNA"]
+		additional_evidence["dna"] += blood_Data
 		additional_evidence["sample_message"] = "You dip the swab inside [src] to sample its contents."
 
 	return additional_evidence
@@ -211,8 +214,8 @@
 	matter = list(DEFAULT_WALL_MATERIAL = 200)
 	w_class = ITEMSIZE_NORMAL
 	amount_per_transfer_from_this = 120
-	possible_transfer_amounts = list(10,20,30,60,120)
-	volume = 120
+	possible_transfer_amounts = list(5,10,15,25,30,50,60,100,120,250,300)
+	volume = 300
 	flags = OPENCONTAINER
 	unacidable = 0
 	drop_sound = 'sound/items/drop/helm.ogg'

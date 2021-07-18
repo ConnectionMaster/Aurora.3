@@ -45,14 +45,6 @@
 	item_state = "waiter"
 	worn_state = "waiter"
 
-/obj/item/clothing/under/sexyclown
-	name = "sexy-clown suit"
-	desc = "It makes you look HONKable!"
-	icon_state = "sexyclown"
-	item_state = "clown"
-	worn_state = "sexyclown"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
-
 //This set of uniforms looks fairly fancy and is generally used for high-ranking NT personnel from what I've seen, so lets give them appropriate ranks.
 /obj/item/clothing/under/rank/centcom
 	desc = "Gold trim on space-black cloth, this uniform displays the rank of \"Captain.\""
@@ -83,6 +75,26 @@
 	desc = "A formal uniform used by Federal Investigations Bureau agents."
 	icon_state = "fib_uniform"
 	worn_state = "fib_uniform"
+
+/obj/item/clothing/under/rank/scc
+	name = "Stellar Corporate Conglomerate agent uniform"
+	desc = "A formal blue uniform worn by agents of the Stellar Corporate Conglomerate."
+	desc_fluff = "The Stellar Corporate Conglomerate, also known as Chainlink, is a joint alliance between the NanoTrasen Corporation, Hephaestus Industries, Idris Incorporated, Zeng-Hu Pharmaceuticals and Zavodskoi Interstellar to exercise an undisputed economic dominance over the Orion Spur."
+	icon = 'icons/clothing/under/uniforms/scc.dmi'
+	icon_state = "scc_agent"
+	item_state = "scc_agent"
+	worn_state = "scc_agent"
+	contained_sprite = TRUE
+
+	rolled_down = FALSE
+	rolled_sleeves = FALSE
+
+/obj/item/clothing/under/rank/scc/executive
+	name = "Stellar Corporate Conglomerate executive uniform"
+	desc = "A stylish purple uniform worn by executive agents of the Stellar Corporate Conglomerate."
+	icon_state = "scc_executive"
+	item_state = "scc_executive"
+	worn_state = "scc_executive"
 
 /obj/item/clothing/under/ert
 	name = "ERT tactical uniform"
@@ -127,7 +139,15 @@
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
-	armor = list(melee = 100, bullet = 100, laser = 100,energy = 100, bomb = 100, bio = 100, rad = 100)
+	armor = list(
+			melee = ARMOR_MELEE_VERY_HIGH,
+			bullet = ARMOR_BALLISTIC_AP,
+			laser = ARMOR_LASER_HEAVY,
+			energy = ARMOR_ENERGY_SHIELDED,
+			bomb = ARMOR_BOMB_SHIELDED,
+			bio = ARMOR_BIO_SHIELDED,
+			rad = ARMOR_RAD_SHIELDED
+			)
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0
@@ -275,6 +295,7 @@
 	item_state = "bl_suit"
 	worn_state = "sundress"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	no_overheat = TRUE
 
 /obj/item/clothing/under/sundress_white
 	name = "white sundress"
@@ -484,6 +505,8 @@
 	item_state = "bl_suit"
 	worn_state = "taucetilegion"
 	siemens_coefficient = 0.7
+	armor = list(
+		melee = ARMOR_MELEE_MINOR)
 
 /obj/item/clothing/under/legion/sentinel
 	name = "Tau Ceti Foreign Legion sentinel uniform"
@@ -514,7 +537,9 @@
 	icon_state = "swatunder"
 	//item_state = "swatunder"
 	worn_state = "swatunder"
-	armor = list(melee = 10, bullet = 5, laser = 5,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(
+		melee = ARMOR_MELEE_MINOR
+		)
 	siemens_coefficient = 0.7
 
 /obj/item/clothing/under/lance
@@ -524,7 +549,9 @@
 	item_state = "lance_fatigues"
 	worn_state = "lance_fatigues"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
-	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(
+		melee = ARMOR_MELEE_MINOR
+		)
 	siemens_coefficient = 0.7
 
 /obj/item/clothing/under/dress/lance_dress
@@ -541,3 +568,10 @@
 	item_state = "lance_dress_m"
 	worn_state = "lance_dress_m"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+
+/obj/item/clothing/under/qipao
+	name = "qipao"
+	desc = "A traditional Solarian women's garment, typically made of (synthetic) silk."
+	icon_state = "qipao"
+	item_state = "qipao"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
