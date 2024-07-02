@@ -2,7 +2,6 @@
 	name = "alien thing"
 	desc = "There's something alien about this."
 	icon = 'icons/obj/gore_structures.dmi'
-	layer = ABOVE_CABLE_LAYER + 0.1
 	anchored = TRUE
 	density = FALSE
 	var/destroy_message = "THE STRUCTURE collapses in on itself!"
@@ -79,6 +78,6 @@
 /obj/structure/gore/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if(air_group)
 		return FALSE
-	if(istype(mover) && mover.checkpass(PASSGLASS))
+	if(istype(mover) && mover.pass_flags & PASSGLASS)
 		return !opacity
 	return !density

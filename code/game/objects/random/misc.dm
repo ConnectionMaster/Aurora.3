@@ -84,7 +84,8 @@
 		/obj/item/toy/plushie/bear,
 		/obj/item/toy/plushie/bearfire,
 		/obj/item/toy/plushie/herring_gull,
-		/obj/item/toy/plushie/cockatoo
+		/obj/item/toy/plushie/cockatoo,
+		/obj/item/toy/plushie/norinori
 	)
 
 /obj/random/balloon
@@ -243,7 +244,11 @@
 		/obj/structure/largecrate/animal/adhomai/fatshouter = 0.5,
 		/obj/structure/largecrate/animal/adhomai/rafama = 0.5,
 		/obj/structure/largecrate/animal/adhomai/schlorrgo = 0.2,
-		/obj/structure/largecrate/animal/hakhma = 0.5
+		/obj/structure/largecrate/animal/hakhma = 0.5,
+		/obj/structure/largecrate/animal/moghes = 0.5,
+		/obj/structure/largecrate/animal/moghes/warmount = 0.2,
+		/obj/structure/largecrate/animal/moghes/miervesh = 0.5,
+		/obj/structure/largecrate/animal/moghes/otzek = 0.5
 	)
 
 /obj/random/random_flag
@@ -362,7 +367,7 @@
 	desc = "75% chance of spawning dirt, otherwise nothing."
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "dirt"
-	layer = ABOVE_CABLE_LAYER // just so it appears under structures in map editor
+	layer = BELOW_OBJ_LAYER // just so it appears under structures in map editor
 	spawn_nothing_percentage = 25
 	spawnlist = list(
 		/obj/effect/decal/cleanable/dirt

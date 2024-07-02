@@ -106,7 +106,11 @@
 	add_fingerprint(user)
 	return
 
-/obj/structure/morgue/relaymove(mob/user)
+/obj/structure/morgue/relaymove(mob/living/user, direction)
+	. = ..()
+	if(!.)
+		return
+
 	if(user.stat || locked)
 		return
 	var/turf/S = get_step(src, src.dir)
@@ -142,7 +146,7 @@
 	density = TRUE
 	anchored = TRUE
 	throwpass = TRUE
-	layer = TURF_LAYER
+	layer = BELOW_OBJ_LAYER
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	var/obj/structure/morgue/connected = null
 

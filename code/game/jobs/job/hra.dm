@@ -9,11 +9,6 @@
 	supervisors = "SCC and the Internal Affairs department"
 	minimal_player_age = 10
 	economic_modifier = 10
-	ideal_character_age = list(
-		SPECIES_HUMAN = 30,
-		SPECIES_SKRELL = 60,
-		SPECIES_SKRELL_AXIORI = 60
-	)
 
 	selection_color = "#c9ad12"
 
@@ -53,7 +48,7 @@
 	l_pocket = /obj/item/reagent_containers/spray/pepper
 	r_pocket = /obj/item/device/taperecorder/cciaa
 	l_hand = /obj/item/storage/lockbox/cciaa
-	id = /obj/item/card/id/gold
+	id = /obj/item/card/id/scc/gold
 
 
 

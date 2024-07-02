@@ -4,7 +4,7 @@
 	icon = 'icons/obj/radio.dmi'
 	icon_state = "red_phone"
 	obj_flags = OBJ_FLAG_CONDUCTABLE
-	force = 3.0
+	force = 3
 	throwforce = 2.0
 	throw_speed = 1
 	throw_range = 4
@@ -51,7 +51,7 @@
 	icon_state = "cane"
 	item_state = "stick"
 	obj_flags = OBJ_FLAG_CONDUCTABLE
-	force = 10
+	force = 15
 	throwforce = 7.0
 	w_class = ITEMSIZE_LARGE
 	matter = list(DEFAULT_WALL_MATERIAL = 50)
@@ -234,7 +234,7 @@
 
 /obj/item/cane/concealed/attack_self(var/mob/user)
 	if(concealed_blade)
-		user.visible_message("<span class='warning'>[user] has unsheathed \a [concealed_blade] from [user.get_pronoun("his")] [src]!</span>", "You unsheathe \the [concealed_blade] from \the [src].")
+		user.visible_message(SPAN_WARNING("[user] has unsheathed \a [concealed_blade] from [user.get_pronoun("his")] [src]!"), "You unsheathe \the [concealed_blade] from \the [src].")
 		// Calling drop/put in hands to properly call item drop/pickup procs
 		playsound(user.loc, 'sound/weapons/holster/sheathout.ogg', 50, 1)
 		user.drop_from_inventory(src)
@@ -250,7 +250,7 @@
 /obj/item/cane/concealed/attackby(obj/item/attacking_item, mob/user)
 	var/obj/item/canesword/attacking_canesword = attacking_item
 	if(!src.concealed_blade && istype(attacking_canesword))
-		user.visible_message("<span class='warning'>[user] has sheathed \a [attacking_canesword] into [user.get_pronoun("his")] [src]!</span>", "You sheathe \the [attacking_canesword] into \the [src].")
+		user.visible_message(SPAN_WARNING("[user] has sheathed \a [attacking_canesword] into [user.get_pronoun("his")] [src]!"), "You sheathe \the [attacking_canesword] into \the [src].")
 		playsound(user.loc, 'sound/weapons/holster/sheathin.ogg', 50, 1)
 		user.drop_from_inventory(attacking_canesword)
 		attacking_canesword.forceMove(src)
@@ -312,7 +312,7 @@
 		item_state = "telestick"
 		w_class = ITEMSIZE_LARGE
 		slot_flags = null
-		force = 6
+		force = 14
 		attack_verb = list("smacked", "struck", "slapped")
 		can_support = TRUE
 	else
@@ -383,7 +383,7 @@
 	desc = "A staff which only has the power to make you look like a nerd."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "staff"
-	force = 3.0
+	force = 3
 	throwforce = 5.0
 	throw_speed = 1
 	throw_range = 5
@@ -409,7 +409,7 @@
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "qstaff0"
 	item_state = "stick"
-	force = 3.0
+	force = 3
 	throwforce = 5.0
 	throw_speed = 1
 	throw_range = 5
@@ -473,7 +473,7 @@
 		if (C.bugged && C.status)
 			cameras.Add(C)
 	if (length(cameras) == 0)
-		to_chat(usr, "<span class='warning'>No bugged functioning cameras found.</span>")
+		to_chat(usr, SPAN_WARNING("No bugged functioning cameras found."))
 		return
 
 	var/list/friendly_cameras = new/list()
@@ -509,7 +509,7 @@
 /obj/item/neuralbroke/attackby(obj/item/attacking_item, mob/user)
 	if(attacking_item.isscrewdriver())
 		new /obj/item/device/encryptionkey/hivenet(user.loc)
-		playsound(src.loc, attacking_item.usesound, 50, 1)
+		attacking_item.play_tool_sound(get_turf(src), 50)
 		to_chat(user, "You bypass the fried security chip and extract the encryption key.")
 		to_chat(user, "The fried neural socket crumbles away like dust.")
 		qdel(src)

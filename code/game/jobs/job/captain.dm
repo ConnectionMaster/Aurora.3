@@ -22,12 +22,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 		SPECIES_SKRELL_AXIORI = 100
 	)
 
-	ideal_character_age = list(
-		SPECIES_HUMAN = 70,
-		SPECIES_SKRELL = 120,
-		SPECIES_SKRELL_AXIORI = 120
-	) // Old geezer captains ftw
-
 	outfit = /obj/outfit/job/captain
 
 	blacklisted_species = list(SPECIES_TAJARA, SPECIES_TAJARA_MSAI, SPECIES_TAJARA_ZHAN, SPECIES_UNATHI, SPECIES_DIONA, SPECIES_IPC, SPECIES_IPC_G1, SPECIES_IPC_G2, SPECIES_IPC_XION, SPECIES_IPC_ZENGHU, SPECIES_IPC_BISHOP, SPECIES_IPC_SHELL, SPECIES_VAURCA_WORKER, SPECIES_VAURCA_WARRIOR, SPECIES_VAURCA_BULWARK, SPECIES_VAURCA_BREEDER, SPECIES_DIONA, SPECIES_DIONA_COEUS)
@@ -40,12 +34,13 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	shoes = /obj/item/clothing/shoes/laceup/brown
 	head = /obj/item/clothing/head/caphat/scc
 	glasses = /obj/item/clothing/glasses/sunglasses
-	id = /obj/item/card/id/gold
+	id = /obj/item/card/id/scc/gold/captain
 
 	headset = /obj/item/device/radio/headset/heads/captain
 	bowman = /obj/item/device/radio/headset/heads/captain/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/captain
 	wrist_radio = /obj/item/device/radio/headset/wrist/captain
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/captain
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/command/captain
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/command/captain
@@ -94,11 +89,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	selection_color = "#1e59c9"
 	minimal_player_age = 10
 	economic_modifier = 10
-	ideal_character_age = list(
-		SPECIES_HUMAN = 50,
-		SPECIES_SKRELL = 100,
-		SPECIES_SKRELL_AXIORI = 100
-	)
 
 	minimum_character_age = list(
 		SPECIES_HUMAN = 30,
@@ -127,12 +117,13 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	head = /obj/item/clothing/head/caphat/xo
 	uniform = /obj/item/clothing/under/rank/xo
 	shoes = /obj/item/clothing/shoes/laceup/brown
-	id = /obj/item/card/id/navy
+	id = /obj/item/card/id/scc/silver
 
 	headset = /obj/item/device/radio/headset/heads/xo
 	bowman = /obj/item/device/radio/headset/heads/xo/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/xo
 	wrist_radio = /obj/item/device/radio/headset/wrist/xo
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/xo
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/command/xo
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/command/xo
@@ -157,11 +148,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	selection_color = "#2b5bb5"
 	minimal_player_age = 20
 	economic_modifier = 5
-	ideal_character_age = list(
-		SPECIES_HUMAN = 30,
-		SPECIES_SKRELL = 75,
-		SPECIES_SKRELL_AXIORI = 75
-	)
 
 	minimum_character_age = list(
 		SPECIES_HUMAN = 25,
@@ -183,9 +169,15 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	head = /obj/item/clothing/head/caphat/bridge_crew
 	uniform = /obj/item/clothing/under/rank/bridge_crew
 	shoes = /obj/item/clothing/shoes/laceup
+	id = /obj/item/card/id/scc/bridge
 
 	headset = /obj/item/device/radio/headset/headset_com
 	bowman = /obj/item/device/radio/headset/headset_com/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/command
 	wrist_radio = /obj/item/device/radio/headset/wrist/command
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/command
 	messengerbag = /obj/item/storage/backpack/messenger/com
+
+	tab_pda = /obj/item/modular_computer/handheld/pda/bridge
+	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/bridge
+	tablet = /obj/item/modular_computer/handheld/preset/bridge

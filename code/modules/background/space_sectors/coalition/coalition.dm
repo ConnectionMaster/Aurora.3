@@ -65,7 +65,7 @@
 	cargo_price_coef = list("nt" = 1.1, "hpi" = 0.7, "zhu" = 0.4, "een" = 1.0, "get" = 1.1, "arz" = 1.8, "blm" = 0.9, "iac" = 1.2, "zsc" = 1.8, "vfc" = 0.9, "bis" = 0.4, "xmg" = 0.7, "npi" = 0.8)
 
 	ports_of_call = list("the corporate district of Aoyama")
-	scheduled_port_visits = list("Thursday", "Sunday")
+	scheduled_port_visits = list("Saturday", "Sunday")
 	starlight_color = "#e2719b"
 	starlight_power = 2//placeholder
 	starlight_range = 4//placeholder
@@ -83,9 +83,9 @@
 	)
 
 	lore_radio_stations = list(
-		"73.2 Navy Broadcasting Service" = "config/lore_radio/konyang/73.2_Navy_Broadcasting_Service.txt",
-		"122 Great Blue Dot" = "config/lore_radio/konyang//122_Great_Blue_Dot.txt",
-		"75.4 PBA" = "config/lore_radio/konyang/75.4_PBA.txt",
-		"77.7 SoulFM" = "config/lore_radio/konyang/77.7_SoulFM.txt",
-		"78.1 RealFM" = "config/lore_radio/konyang/78.1_RealFM.txt"
+		"73.2 Navy Broadcasting Service" = 'texts/lore_radio/konyang/73.2_Navy_Broadcasting_Service.txt',
+		"122 Great Blue Dot" = 'texts/lore_radio/konyang//122_Great_Blue_Dot.txt',
+		"75.4 PBA" = 'texts/lore_radio/konyang/75.4_PBA.txt',
+		"77.7 SoulFM" = 'texts/lore_radio/konyang/77.7_SoulFM.txt',
+		"78.1 RealFM" = 'texts/lore_radio/konyang/78.1_RealFM.txt'
 	)

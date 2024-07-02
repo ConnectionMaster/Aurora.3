@@ -27,28 +27,28 @@
 		if(0)
 			if(attacking_item.isscrewdriver())
 				to_chat(user, SPAN_NOTICE("You unfasten the bolts."))
-				playsound(src.loc, attacking_item.usesound, 50, 1)
+				attacking_item.play_tool_sound(get_turf(src), 50)
 				construct_op ++
 				. = TRUE
 		if(1)
 			if(attacking_item.isscrewdriver())
 				to_chat(user, SPAN_NOTICE("You fasten the bolts."))
-				playsound(src.loc, attacking_item.usesound, 50, 1)
+				attacking_item.play_tool_sound(get_turf(src), 50)
 				construct_op --
 				. = TRUE
 			if(attacking_item.iswrench())
 				to_chat(user, SPAN_NOTICE("You dislodge the external plating."))
-				playsound(src.loc, attacking_item.usesound, 75, 1)
+				attacking_item.play_tool_sound(get_turf(src), 75)
 				construct_op ++
 				. = TRUE
 		if(2)
 			if(attacking_item.iswrench())
 				to_chat(user, SPAN_NOTICE("You secure the external plating."))
-				playsound(src.loc, attacking_item.usesound, 75, 1)
+				attacking_item.play_tool_sound(get_turf(src), 75)
 				construct_op --
 				. = TRUE
 			if(attacking_item.iswirecutter())
-				playsound(src.loc, attacking_item.usesound, 50, 1)
+				attacking_item.play_tool_sound(get_turf(src), 50)
 				to_chat(user, SPAN_NOTICE("You remove the cables."))
 				construct_op ++
 				var/obj/item/stack/cable_coil/A = new /obj/item/stack/cable_coil( user.loc )
@@ -59,11 +59,11 @@
 			if(attacking_item.iscoil())
 				var/obj/item/stack/cable_coil/A = attacking_item
 				if (A.use(5))
-					to_chat(user, "<span class='notice'>You insert the cables.</span>")
+					to_chat(user, SPAN_NOTICE("You insert the cables."))
 					construct_op--
 					stat &= ~BROKEN // the machine's not borked anymore!
 				else
-					to_chat(user, "<span class='warning'>You need five coils of wire for this.</span>")
+					to_chat(user, SPAN_WARNING("You need five coils of wire for this."))
 				. = TRUE
 			if(attacking_item.iscrowbar())
 				to_chat(user, SPAN_NOTICE("You begin prying out the circuit board's components..."))

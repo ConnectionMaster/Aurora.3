@@ -153,8 +153,8 @@
 				dat += "<a href='?src=\ref[src];switchscreen=7'>7. Access the Forbidden Lore Vault</a><br>"
 			if(arcanecheckout)
 				new /obj/item/book/tome(get_turf(src))
-				to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a dusty old tome sitting on the desk. You don't really remember printing it.</span>")
-				user.visible_message("<span class='notice'>\The [user] stares at the blank screen for a few moments, [user.get_pronoun("his")] expression frozen in fear. When [user.get_pronoun("he")] finally awakens from it, [user.get_pronoun("he")] looks a lot older.</span>", range = 2)
+				to_chat(user, SPAN_WARNING("Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a dusty old tome sitting on the desk. You don't really remember printing it."))
+				user.visible_message(SPAN_NOTICE("\The [user] stares at the blank screen for a few moments, [user.get_pronoun("his")] expression frozen in fear. When [user.get_pronoun("he")] finally awakens from it, [user.get_pronoun("he")] looks a lot older."), range = 2)
 				arcanecheckout = FALSE
 		if(1)
 			// Inventory
@@ -418,7 +418,7 @@
 			return
 		user.drop_from_inventory(attacking_item,src)
 	if(attacking_item.iswrench())
-		playsound(get_turf(src), attacking_item.usesound, 75, TRUE)
+		attacking_item.play_tool_sound(get_turf(src), 75)
 		if(anchored)
 			user.visible_message(SPAN_NOTICE("\The [user] unsecures \the [src] from the floor."),
 								SPAN_NOTICE("You unsecure \the [src] from the floor."),
@@ -506,7 +506,7 @@
 		qdel(attacking_item)
 		return
 	if(attacking_item.iswrench())
-		playsound(get_turf(src), attacking_item.usesound, 75, TRUE)
+		attacking_item.play_tool_sound(get_turf(src), 75)
 		if(anchored)
 			user.visible_message(SPAN_NOTICE("\The [user] unsecures \the [src] from the floor."), \
 				SPAN_NOTICE("You unsecure \the [src] from the floor."), \

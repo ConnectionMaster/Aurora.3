@@ -80,6 +80,7 @@
 	var/bowman = /obj/item/device/radio/headset/alt
 	var/double_headset = /obj/item/device/radio/headset/alt/double
 	var/wrist_radio = /obj/item/device/radio/headset/wrist
+	var/clipon_radio = /obj/item/device/radio/headset/wrist/clip
 
 	var/id_iff = IFF_DEFAULT // when spawning in, the ID will be set to this iff, preventing friendly fire
 
@@ -285,6 +286,9 @@
 				wrist = wrist_radio
 				if(H.headset_choice == OUTFIT_THIN_WRISTRAD)
 					radio_callback = CALLBACK(src, PROC_REF(turn_into_thinset))
+			if(OUTFIT_CLIPON)
+				l_ear = null
+				wrist = clipon_radio
 			else
 				l_ear = headset //Department headset
 	if(l_ear)
@@ -326,6 +330,9 @@
 	if(!H)
 		return
 
+	if(islist(accessory))
+		accessory = pick(accessory)
+
 	var/obj/item/clothing/under/U = H.get_equipped_item(slot_w_uniform)
 	if(U)
 		var/obj/item/clothing/accessory/A = new accessory
@@ -356,10 +363,17 @@
 		var/obj/item/clothing/accessory/A = new suit_accessory
 		S.attach_accessory(H, A)
 
+/**
+ * This proc handles actions done after the outfit was equipped,
+ * eg. toggling internals, personalizations or similar
+ *
+ * This process can and does sleep, and should never be waited upon, but only invoked asyncronously (`INVOKE_ASYNC`)
+ */
 /obj/outfit/proc/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	//to be overriden for changing items post equip (such as toggeling internals, ...)
 
 /obj/outfit/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	SHOULD_NOT_SLEEP(TRUE)
 	//Start with uniform,suit,backpack for additional slots
 	if(back)
 		equip_item(H, back, slot_back)
@@ -512,7 +526,7 @@
 			else
 				H.equip_or_collect(ID, slot_wear_id)
 
-	post_equip(H, visualsOnly)
+	INVOKE_ASYNC(src, PROC_REF(post_equip), H, visualsOnly)
 
 	if(!visualsOnly)
 		apply_fingerprints(H)

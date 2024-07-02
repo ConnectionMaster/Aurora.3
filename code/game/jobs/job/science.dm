@@ -30,11 +30,6 @@
 		ACCESS_XENOARCH, ACCESS_NETWORK, ACCESS_MAINT_TUNNELS, ACCESS_IT, ACCESS_INTREPID
 	)
 	minimal_player_age = 14
-	ideal_character_age = list(
-		SPECIES_HUMAN = 50,
-		SPECIES_SKRELL = 100,
-		SPECIES_SKRELL_AXIORI = 100
-	)
 	outfit = /obj/outfit/job/rd
 
 	blacklisted_species = list(SPECIES_TAJARA_MSAI, SPECIES_TAJARA_ZHAN, SPECIES_VAURCA_BREEDER, SPECIES_VAURCA_WORKER, SPECIES_VAURCA_WARRIOR, SPECIES_VAURCA_BULWARK)
@@ -53,6 +48,7 @@
 	bowman = /obj/item/device/radio/headset/heads/rd/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/rd
 	wrist_radio = /obj/item/device/radio/headset/wrist/rd
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/rd
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/research/rd
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/research/rd
@@ -101,6 +97,7 @@
 	bowman = /obj/item/device/radio/headset/headset_sci/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/sci
 	wrist_radio = /obj/item/device/radio/headset/wrist/sci
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/sci
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/research
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/research
@@ -150,6 +147,7 @@
 	bowman = /obj/item/device/radio/headset/headset_xenoarch/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/xenoarch
 	wrist_radio = /obj/item/device/radio/headset/wrist/xenoarch
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/xenoarch
 
 /datum/job/xenobiologist
 	title = "Xenobiologist"
@@ -241,6 +239,7 @@
 	bowman = /obj/item/device/radio/headset/headset_sci/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/sci
 	wrist_radio = /obj/item/device/radio/headset/wrist/sci
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/sci
 
 	backpack = /obj/item/storage/backpack/toxins
 	backpack_faction = /obj/item/storage/backpack/nt

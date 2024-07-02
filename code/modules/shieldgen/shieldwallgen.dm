@@ -151,7 +151,7 @@
 
 		wrenched = !wrenched
 		anchored = wrenched
-		playsound(loc, attacking_item.usesound, 75, TRUE)
+		attacking_item.play_tool_sound(get_turf(src), 75)
 		add_fingerprint(user)
 		var/others_msg = wrenched ? "<b>[user]</b> secures the external reinforcing bolts to the floor." : "<b>[user]</b> unsecures the external reinforcing bolts."
 		var/self_msg = wrenched ? "You secure the external reinforcing bolts to the floor." : "You unsecure the external reinforcing bolts."
@@ -294,7 +294,7 @@
 /obj/shieldwall/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if(air_group || (height==0))
 		return TRUE
-	if(istype(mover) && mover.checkpass(PASSGLASS))
+	if(istype(mover) && mover.pass_flags & PASSGLASS)
 		return prob(20)
 	else
 		if(istype(mover, /obj/item/projectile))

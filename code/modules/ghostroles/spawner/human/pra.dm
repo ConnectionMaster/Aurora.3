@@ -50,6 +50,7 @@
 						/obj/item/ammo_magazine/mc9mm = 2
 						)
 	r_hand = /obj/item/storage/field_ration
+	l_hand = /obj/item/martial_manual/tajara
 
 /obj/outfit/admin/pra_cosmonaut/commissar
 	name = "Party Commissar"
@@ -63,8 +64,9 @@
 	backpack_contents = list(
 						/obj/item/ammo_magazine/a50 = 2,
 						/obj/item/material/knife/trench = 1,
+						/obj/item/clothing/accessory/badge/hadii_card/member = 1,
 						/obj/item/storage/box/hadii_manifesto = 1,
 						/obj/item/storage/box/hadii_card = 1
 						)
 	l_hand = /obj/item/device/megaphone
-	r_hand = null
+	r_hand = /obj/item/martial_manual/tajara

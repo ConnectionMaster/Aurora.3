@@ -45,7 +45,7 @@
 	icon_state = "wiredrod"
 	item_state = "rods"
 	obj_flags = OBJ_FLAG_CONDUCTABLE
-	force = 8
+	force = 18
 	throwforce = 10
 	w_class = ITEMSIZE_NORMAL
 	attack_verb = list("hit", "bludgeoned", "whacked", "bonked")
@@ -62,7 +62,7 @@
 	var/image/I = image(icon, null, "wiredrod_cable")
 	I.appearance_flags = RESET_COLOR
 	I.color = cable_color
-	add_overlay(I)
+	AddOverlays(I)
 
 /obj/item/material/wirerod/attackby(obj/item/attacking_item, mob/user)
 	..()
@@ -92,7 +92,7 @@
 	icon = 'icons/obj/weapons_build.dmi'
 	icon_state = "shaft"
 	item_state = "rods"
-	force = 5
+	force = 11
 	throwforce = 3
 	w_class = ITEMSIZE_LARGE
 	attack_verb = list("hit", "bludgeoned", "whacked", "bonked")
@@ -121,7 +121,7 @@
 	desc = "A pointy spearhead, not really useful without a shaft."
 	icon = 'icons/obj/weapons_build.dmi'
 	icon_state = "spearhead"
-	force = 5
+	force = 11
 	throwforce = 5
 	w_class = ITEMSIZE_SMALL
 	attack_verb = list("attacked", "poked")

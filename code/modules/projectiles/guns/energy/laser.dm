@@ -9,7 +9,7 @@
 	slot_flags = SLOT_BELT|SLOT_BACK
 	accuracy = 1
 	w_class = ITEMSIZE_NORMAL
-	force = 10
+	force = 15
 	origin_tech = list(TECH_COMBAT = 3, TECH_MAGNET = 2)
 	matter = list(DEFAULT_WALL_MATERIAL = 2000)
 	projectile_type = /obj/item/projectile/beam/midlaser
@@ -65,7 +65,7 @@
 	icon_state = "caplaser"
 	item_state = "caplaser"
 	has_item_ratio = FALSE
-	force = 5
+	force = 11
 	fire_sound = 'sound/weapons/laser1.ogg'
 	slot_flags = SLOT_BELT
 	w_class = ITEMSIZE_NORMAL
@@ -153,7 +153,7 @@
 	charge_cost = 400
 	max_shots = 4
 	fire_delay = 45
-	force = 10
+	force = 15
 	w_class = ITEMSIZE_LARGE
 	accuracy = -3 //shooting at the hip
 	scoped_accuracy = 4
@@ -174,7 +174,7 @@
 	if(wielded)
 		toggle_scope(2.0, usr)
 	else
-		to_chat(usr, "<span class='warning'>You can't look through the scope without stabilizing the rifle!</span>")
+		to_chat(usr, SPAN_WARNING("You can't look through the scope without stabilizing the rifle!"))
 
 /obj/item/gun/energy/laser/shotgun
 	name = "laser shotgun"
@@ -189,7 +189,7 @@
 	slot_flags = SLOT_BELT|SLOT_BACK
 	w_class = ITEMSIZE_LARGE
 	accuracy = 0
-	force = 10
+	force = 15
 	matter = list(DEFAULT_WALL_MATERIAL = 2000)
 	origin_tech = list(TECH_COMBAT = 4, TECH_MAGNET = 2)
 	projectile_type = /obj/item/projectile/beam/shotgun

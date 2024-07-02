@@ -79,8 +79,12 @@ var/const/OVERMAP_SPEED_CONSTANT = (1 SECOND)
 
 	. = ..()
 
-/obj/effect/overmap/visitable/ship/relaymove(mob/user, direction, accel_limit)
-	accelerate(direction, accel_limit)
+/obj/effect/overmap/visitable/ship/relaymove(mob/living/user, direction, accel_limit)
+	. = ..()
+	if(!.)
+		return
+
+	INVOKE_ASYNC(src, PROC_REF(accelerate), direction, accel_limit)
 
 /obj/effect/overmap/visitable/ship/proc/is_still()
 	return !MOVING(speed[1]) && !MOVING(speed[2])
@@ -349,7 +353,7 @@ var/const/OVERMAP_SPEED_CONSTANT = (1 SECOND)
 			else
 				to_chat(L, SPAN_WARNING("The ship turns beneath you, but the artificial gravity keeps you on your feet."))
 			shake_camera(L, 1 SECOND, 2)
-			L.playsound_simple(soundin = 'sound/machines/thruster.ogg', volume = 50)
+			L.playsound_local(soundin = 'sound/machines/thruster.ogg', vol = 50)
 	last_combat_turn = world.time
 
 /obj/effect/overmap/visitable/ship/proc/combat_roll(var/new_dir)

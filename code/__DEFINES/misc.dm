@@ -47,14 +47,14 @@
 #define CHAT_NOICONS			0x8000
 #define CHAT_GHOSTLOOC			0x10000
 
-// 0x1 is free.
-// 0x2 is free.
-#define PROGRESS_BARS				0x4
-#define PARALLAX_IS_STATIC			0x8
-#define FLOATING_MESSAGES			0x10
-#define HOTKEY_DEFAULT				0x20
-#define FULLSCREEN_MODE				0x40
-#define ACCENT_TAG_TEXT				0x80
+#define SEE_ITEM_OUTLINES 0x1
+#define HIDE_ITEM_TOOLTIPS 0x2
+#define PROGRESS_BARS 0x4
+#define PARALLAX_IS_STATIC 0x8
+#define FLOATING_MESSAGES 0x10
+#define HOTKEY_DEFAULT 0x20
+#define FULLSCREEN_MODE 0x40
+#define ACCENT_TAG_TEXT 0x80
 
 #define TOGGLES_DEFAULT (SOUND_ADMINHELP | SOUND_MIDI | SOUND_LOBBY | CHAT_OOC | CHAT_DEAD | CHAT_GHOSTEARS | CHAT_GHOSTSIGHT | CHAT_PRAYER | CHAT_RADIO | CHAT_ATTACKLOGS | CHAT_LOOC | CHAT_GHOSTLOOC)
 
@@ -135,6 +135,7 @@
 #define AREA_FLAG_PRISON              	 BITFLAG(6) // Marks prison area for purposes of checking if brigged/imprisoned
 #define AREA_FLAG_NO_GHOST_TELEPORT_ACCESS BITFLAG(7) // Marks whether ghosts should not have teleport access to this area
 #define AREA_FLAG_INDESTRUCTIBLE_TURFS			 BITFLAG(8) //Marks whether or not turfs in this area can be destroyed by explosions
+#define AREA_FLAG_IS_BACKGROUND 		 BITFLAG(9) //Marks whether or not blueprints can create areas on top of this area
 
 // Convoluted setup so defines can be supplied by Bay12 main server compile script.
 // Should still work fine for people jamming the icons into their repo.
@@ -460,17 +461,20 @@ example:
 
 //Map template flags
 /// Lets multiple copies of the template to be spawned
-#define TEMPLATE_FLAG_ALLOW_DUPLICATES 1
-/// Makes it ignore away site budget and just spawn (works only for away sites)
+#define TEMPLATE_FLAG_ALLOW_DUPLICATES BITFLAG(1)
+/// If it should ignore away site budget and just spawn (works only for away sites)
 /// A site needs to be set to spawn in current sector to be considered still
-#define TEMPLATE_FLAG_SPAWN_GUARANTEED 2
-/// if it should destroy objects it spawns on top of
-#define TEMPLATE_FLAG_CLEAR_CONTENTS   4
-/// if it should forbid ruins from spawning on top of it
-#define TEMPLATE_FLAG_NO_RUINS         8
+#define TEMPLATE_FLAG_SPAWN_GUARANTEED BITFLAG(2)
+/// If it should destroy objects it spawns on top of
+#define TEMPLATE_FLAG_CLEAR_CONTENTS   BITFLAG(3)
+/// If it should forbid ruins from spawning on top of it
+#define TEMPLATE_FLAG_NO_RUINS         BITFLAG(4)
+/// If it should always spawn if today is a port of call day
+#define TEMPLATE_FLAG_PORT_SPAWN       BITFLAG(5)
 
 //Ruin map template flags
-#define TEMPLATE_FLAG_RUIN_STARTS_DISALLOWED 32  // Ruin is not available during spawning unless another ruin permits it, or whitelisted by the exoplanet
+/// Ruin is not available during spawning unless another ruin permits it, or whitelisted by the exoplanet
+#define TEMPLATE_FLAG_RUIN_STARTS_DISALLOWED BITFLAG(6)
 
 #define LANDING_ZONE_RADIUS 15 // Used for autoplacing landmarks on exoplanets
 
@@ -505,3 +509,18 @@ example:
 #define GEAR_TWEAK_ACCESSORY_SLOT_SUIT "Suit"
 /// Spawns standalone in the suit slot
 #define GEAR_TWEAK_ACCESSORY_SLOT_SUIT_STANDALONE "Standalone Suit"
+
+//Turf/area values for 'this space is outside' checks
+#define OUTSIDE_AREA null
+#define OUTSIDE_NO   FALSE
+#define OUTSIDE_YES  TRUE
+#define OUTSIDE_UNCERTAIN null
+
+// Weather exposure values for being rained on or hailed on.
+#define WEATHER_IGNORE   -1
+#define WEATHER_EXPOSED   0
+#define WEATHER_ROOFED    1
+#define WEATHER_PROTECTED 2
+
+// arbitrary low pressure bound for wind weather effects
+#define MIN_WIND_PRESSURE 10

@@ -17,13 +17,6 @@
 		SPECIES_SKRELL_AXIORI = 80
 	)
 
-	ideal_character_age = list(
-		SPECIES_HUMAN = 50,
-		SPECIES_SKRELL = 100,
-		SPECIES_SKRELL_AXIORI = 100
-	)
-
-
 	access = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_TECH_STORAGE, ACCESS_MAINT_TUNNELS,
 					ACCESS_TELEPORTER, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_ATMOSPHERICS, ACCESS_EMERGENCY_STORAGE, ACCESS_EVA, ACCESS_LEVIATHAN, ACCESS_SHIP_WEAPONS,
 					ACCESS_HEADS, ACCESS_CONSTRUCTION, ACCESS_SEC_DOORS, ACCESS_RESEARCH, ACCESS_MEDICAL, ACCESS_MINING, ACCESS_MAILSORTING,
@@ -55,6 +48,7 @@
 	bowman = /obj/item/device/radio/headset/heads/ce/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/ce
 	wrist_radio = /obj/item/device/radio/headset/wrist/ce
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/ce
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/engineering/ce
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/engineering/ce
@@ -117,6 +111,7 @@
 	bowman = /obj/item/device/radio/headset/headset_eng/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/eng
 	wrist_radio = /obj/item/device/radio/headset/wrist/eng
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/eng
 
 	tab_pda = /obj/item/modular_computer/handheld/pda/engineering
 	wristbound = /obj/item/modular_computer/handheld/wristbound/preset/pda/engineering
@@ -182,6 +177,7 @@
 	bowman = /obj/item/device/radio/headset/headset_eng/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/eng
 	wrist_radio = /obj/item/device/radio/headset/wrist/eng
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/eng
 
 	backpack = /obj/item/storage/backpack/industrial
 	satchel = /obj/item/storage/backpack/satchel/eng
@@ -257,6 +253,7 @@
 	bowman = /obj/item/device/radio/headset/headset_eng/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/eng
 	wrist_radio = /obj/item/device/radio/headset/wrist/eng
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/eng
 
 	backpack = /obj/item/storage/backpack/industrial
 	satchel = /obj/item/storage/backpack/satchel/eng
@@ -291,6 +288,7 @@
 	bowman = /obj/item/device/radio/headset/headset_eng/alt
 	double_headset = /obj/item/device/radio/headset/alt/double/eng
 	wrist_radio = /obj/item/device/radio/headset/wrist/eng
+	clipon_radio = /obj/item/device/radio/headset/wrist/clip/eng
 
 	backpack = /obj/item/storage/backpack/industrial
 	satchel = /obj/item/storage/backpack/satchel/eng

@@ -93,11 +93,10 @@
 	if(antaghud_indicator)
 		if(!GLOB.hud_icon_reference)
 			GLOB.hud_icon_reference = list()
-		if(role_text) GLOB.hud_icon_reference[role_text] = antaghud_indicator
-		if(faction_role_text) GLOB.hud_icon_reference[faction_role_text] = antaghud_indicator
-
-/datum/antagonist/proc/tick()
-	return 1
+		if(role_text)
+			GLOB.hud_icon_reference[role_text] = antaghud_indicator
+		if(faction_role_text)
+			GLOB.hud_icon_reference[faction_role_text] = antaghud_indicator
 
 // Get the raw list of potential players.
 /datum/antagonist/proc/build_candidate_list(var/ghosts_only, var/allow_animals = 0)
@@ -186,6 +185,8 @@
 	return 1
 
 /datum/antagonist/proc/draft_antagonist(var/datum/mind/player)
+	SHOULD_NOT_SLEEP(TRUE)
+
 	//Check if the player can join in this antag role, or if the player has already been given an antag role.
 	if(!can_become_antag(player))
 		log_traitor("[player.key] was selected for [role_text] by lottery, but is not allowed to be that role.")

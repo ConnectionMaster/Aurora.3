@@ -172,11 +172,11 @@
 				holder.trans_to(I, weights[I] / total)
 
 /obj/item/reagent_containers/cooking_container/update_icon()
-	cut_overlays()
+	ClearOverlays()
 	if(reagents?.total_volume)
 		var/mutable_appearance/filling = mutable_appearance(icon, "[icon_state]_filling_overlay")
 		filling.color = reagents.get_color()
-		add_overlay(filling)
+		AddOverlays(filling)
 
 /obj/item/reagent_containers/cooking_container/oven
 	name = "oven dish"
@@ -188,13 +188,13 @@
 	appliancetype = OVEN
 
 /obj/item/reagent_containers/cooking_container/oven/update_icon()
-	cut_overlays()
+	ClearOverlays()
 	for(var/obj/item/I in contents)
 		var/image/food = overlay_image(I.icon, I.icon_state, I.color)
 		var/matrix/M = matrix()
 		M.Scale(0.5)
 		food.transform = M
-		add_overlay(food)
+		AddOverlays(food)
 
 /obj/item/reagent_containers/cooking_container/skillet
 	name = "skillet"
@@ -202,7 +202,7 @@
 	desc = "Chuck ingredients in this to fry something on the stove."
 	icon_state = "skillet"
 	volume = 30
-	force = 11
+	force = 16
 	hitsound = 'sound/weapons/smash.ogg'
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER // Will still react
 	appliancetype = SKILLET
@@ -223,7 +223,7 @@
 	icon_state = "pan"
 	volume = 90
 	slot_flags = SLOT_HEAD
-	force = 8
+	force = 18
 	hitsound = 'sound/weapons/smash.ogg'
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER // Will still react
 	appliancetype = SAUCEPAN
@@ -244,7 +244,7 @@
 	icon_state = "pot"
 	max_space = 50
 	volume = 180
-	force = 8
+	force = 18
 	hitsound = 'sound/weapons/smash.ogg'
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER // Will still react
 	appliancetype = POT
@@ -340,13 +340,13 @@
 	return ..()
 
 /obj/item/reagent_containers/cooking_container/board/update_icon()
-	cut_overlays()
+	ClearOverlays()
 	for(var/obj/item/I in contents)
 		var/image/food = overlay_image(I.icon, I.icon_state, I.color)
 		var/matrix/M = matrix()
 		M.Scale(0.5)
 		food.transform = M
-		add_overlay(food)
+		AddOverlays(food)
 
 /obj/item/reagent_containers/cooking_container/board/bowl
 	name = "mixing bowl"
@@ -362,8 +362,8 @@
 	possible_transfer_amounts = list(5,10,15,25,30,60,180)
 
 /obj/item/reagent_containers/cooking_container/board/bowl/update_icon()
-	cut_overlays()
+	ClearOverlays()
 	if(reagents?.total_volume)
 		var/mutable_appearance/filling = mutable_appearance(icon, "[icon_state][get_filling_state()]")
 		filling.color = reagents.get_color()
-		add_overlay(filling)
+		AddOverlays(filling)

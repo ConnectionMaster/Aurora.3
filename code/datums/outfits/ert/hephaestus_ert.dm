@@ -1,7 +1,10 @@
 /obj/outfit/admin/ert/hephaestus
 	name = "Hephaestus Asset Protection"
 	uniform = /obj/item/clothing/under/rank/security/heph
-	shoes = /obj/item/clothing/shoes/magboots
+	shoes = /obj/item/clothing/shoes/jackboots
+	species_shoes = list(
+		SPECIES_UNATHI = /obj/item/clothing/shoes/jackboots/toeless
+	)
 	back = /obj/item/storage/backpack/satchel/heph
 	suit = /obj/item/clothing/suit/space/void/hephaestus
 	head = /obj/item/clothing/head/helmet/space/void/hephaestus
@@ -35,9 +38,14 @@
 /obj/outfit/admin/ert/hephaestus/get_id_access()
 	return get_distress_access()
 
+/obj/outfit/admin/ert/hephaestuss/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(H?.shoes)
+		var/obj/item/clothing/shoes/magboots/boots = new(H)
+		H.equip_to_slot_if_possible(boots, slot_shoes)
+
 /obj/outfit/admin/ert/hephaestus/medic
 	name = "Hephaestus Medic"
-	belt = /obj/item/storage/belt/medical/first_responder/combat
+	belt = /obj/item/storage/belt/medical/paramedic/combat
 	glasses = /obj/item/clothing/glasses/hud/health
 	gloves = /obj/item/clothing/gloves/latex
 	species_gloves = list(

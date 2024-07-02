@@ -1,12 +1,12 @@
 /obj/item/gun/energy/scythe
 	name = "\improper Purpose munitions scythe"
-	desc = "<span class='warning'>A seemingly innocuous metal construction the size of a human arm. Through forces unknown, it produces alloy flechettes \
-			capable of piercing even the strongest armor known to the Spur.</span>"
+	desc = SPAN_WARNING("A seemingly innocuous metal construction the size of a human arm. Through forces unknown, it produces alloy flechettes \
+			capable of piercing even the strongest armor known to the Spur.")
 	icon = 'icons/obj/guns/scythe.dmi'
 	icon_state = "hunterkiller_scythe"
 	item_state = "hunterkiller_scythe"
 	w_class = ITEMSIZE_HUGE
-	force = 25
+	force = 31
 	armor_penetration = 30
 	slot_flags = SLOT_BACK
 	fire_sound = 'sound/weapons/railgun.ogg'
@@ -72,7 +72,7 @@
 		return
 
 	if(wielded)
-		playsound(terminator, 'sound/items/goggles_charge.ogg')
+		playsound(terminator, 'sound/items/goggles_charge.ogg', 40)
 		toggle_scope(2, terminator)
 	else
 		to_chat(terminator, SPAN_WARNING("You can't look through the scope without stabilizing the rifle!"))

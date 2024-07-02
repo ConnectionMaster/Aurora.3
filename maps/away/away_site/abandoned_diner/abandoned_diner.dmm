@@ -4374,7 +4374,7 @@
 /turf/simulated/floor/tiled,
 /area/abandoned_diner/docking/b)
 "nIF" = (
-/obj/structure/closet/secure_closet/freezer/fridge,
+/obj/structure/closet/secure_closet/refrigerator/standard,
 /obj/item/storage/box/fancy/egg_box,
 /obj/item/storage/box/fancy/egg_box,
 /obj/effect/floor_decal/industrial/outline/grey,
@@ -4527,7 +4527,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/abandoned_diner/backroom)
 "ovC" = (
-/obj/structure/closet/secure_closet/freezer/fridge,
+/obj/structure/closet/secure_closet/refrigerator/standard,
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/reagent_containers/food/condiment/flour,
@@ -5139,7 +5139,6 @@
 	},
 /obj/structure/sign/double/barsign/kitchensign{
 	pixel_y = 28;
-	layer = 2.8;
 	req_access = null
 	},
 /obj/machinery/chemical_dispenser/bar_soft/full{
